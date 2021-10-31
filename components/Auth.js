@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { supabase } from '../utils/supabaseClient'
+import { supabase } from '../lib/initSupabase'
 import BaseButtonRound from './BaseButtonRound'
 
 export default function Auth() {
@@ -28,9 +28,14 @@ export default function Auth() {
             handleLogin(email)
           }}
         >
-          <h1 className="font-semibold text-xl">Supabase + Next.js</h1>
+          <h1 className="font-semibold text-xl">
+            {/* Supabase + Next.js */}
+            Sign in to your account
+          </h1>
 
-          <p className="text-gray-500 mt-2">Sign in via magic link with your email below</p>
+          <p className="text-gray-500 mt-2">
+            Sign in via magic link with your email below
+          </p>
 
           <div>
             <input

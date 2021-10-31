@@ -1,22 +1,14 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../utils/supabaseClient'
-import Auth from '../components/Auth'
-import Account from '../components/Account'
+import Layout from '../components/Layout'
+import ContentHero from '../components/ContentHero'
+import CheckPasswordRecovery from '../components/CheckPasswordRecovery'
 
-export default function Home() {
-  const [session, setSession] = useState(null)
-
-  useEffect(() => {
-    setSession(supabase.auth.session())
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
-
+function Home() {
   return (
-    <div className="mx-auto max-w-lg p-8">
-      {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
-    </div>
+    <Layout>
+      <ContentHero />
+      <CheckPasswordRecovery />
+    </Layout>
   )
 }
+
+export default Home
