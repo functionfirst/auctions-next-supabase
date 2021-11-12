@@ -6,17 +6,15 @@ import LayoutMenuIcon from './LayoutMenuIcon'
 const Layout = ({ children }) => {
   return (
     <>
-      <div>
-        <LayoutHeader>
-          <LayoutHeaderLogo />
-          <LayoutMenuIcon />
-          <LayoutUserNav />
-        </LayoutHeader>
+      <LayoutHeader>
+        <LayoutHeaderLogo />
+        <LayoutMenuIcon />
+        <LayoutUserNav />
+      </LayoutHeader>
 
-        <main className="mx-auto max-w-lg p-8">
-          {children}
-        </main>
-      </div>
+      <main className="mx-auto max-w-lg p-8">
+        {children}
+      </main>
     </>
   )
 }

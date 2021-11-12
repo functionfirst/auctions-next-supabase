@@ -1,9 +1,9 @@
-import LayoutBase from '../components/LayoutBase'
+import LayoutAuth from '../components/LayoutAuth'
 import Link from 'next/link'
 
 function Success () {
   return (
-    <LayoutBase>
+    <LayoutAuth>
       <div className="text-center">
         <h1 className="text-2xl font-semibold">
           Check your email
@@ -24,7 +24,7 @@ function Success () {
           </Link>.
         </p>
       </div>
-    </LayoutBase>
+    </LayoutAuth>
   )
 }
 

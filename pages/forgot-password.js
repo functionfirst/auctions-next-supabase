@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
-import LayoutBase from '../components/LayoutBase'
+import LayoutAuth from '../components/LayoutAuth'
 import LoadingButton from '../components/LoadingButton'
 import { supabase } from '../lib/initSupabase'
 
@@ -88,9 +88,9 @@ function ForgotPasswordForm () {
 
 function ForgotPassword() {
   return (
-    <LayoutBase>
+    <LayoutAuth>
       <ForgotPasswordForm />
-    </LayoutBase>
+    </LayoutAuth>
   )
 }
 

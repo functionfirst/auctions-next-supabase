@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import LayoutBase from "../components/LayoutBase"
+import LayoutAuth from "../components/LayoutAuth"
 import LoadingButton from '../components/LoadingButton'
 import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
@@ -134,9 +134,9 @@ function LoginForm () {
 
 function Login() {
   return (
-    <LayoutBase>
+    <LayoutAuth>
       <LoginForm />
-    </LayoutBase>
+    </LayoutAuth>
   )
 }
 

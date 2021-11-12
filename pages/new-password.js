@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
-import LayoutBase from '../components/LayoutBase'
+import LayoutAuth from '../components/LayoutAuth'
 import LoadingButton from '../components/LoadingButton'
 import { supabase } from '../lib/initSupabase'
 
@@ -90,9 +90,9 @@ function ResetPasswordForm () {
 
 function NewPassword () {
   return (
-    <LayoutBase>
+    <LayoutAuth>
       <ResetPasswordForm />
-    </LayoutBase>
+    </LayoutAuth>
   )
 }
 

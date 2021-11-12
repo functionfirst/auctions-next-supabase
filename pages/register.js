@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import LayoutBase from '../components/LayoutBase'
+import LayoutAuth from '../components/LayoutAuth'
 import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
 import LoadingButton from '../components/LoadingButton'
@@ -145,8 +145,8 @@ function RegisterForm () {
 
 export default function Register() {
   return (
-    <LayoutBase>
+    <LayoutAuth>
       <RegisterForm />
-    </LayoutBase>
+    </LayoutAuth>
   )
 }
