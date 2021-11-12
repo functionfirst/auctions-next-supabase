@@ -1,25 +1,38 @@
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import formatDistance from 'date-fns/formatDistance'
+import parseISO from 'date-fns/parseISO'
+import toDate from 'date-fns/toDate'
+import format from 'date-fns/format'
 
-const config = {
-  compact: true,
-  words_connector: ' ',
-  two_words_connector: ' ',
-  last_word_connector: ' '
-}
+function AuctionCountdown ({
+  endDate,
+  hasEnded
+}) {
+  const now = toDate(new Date())
+  const parsedEndDate = parseISO(endDate)
+  const formattedEndDate = format(parsedEndDate, "io MMM yyyy 'at' HH:mmaaaa")
+  let label, text, title
 
-function AuctionCountdown ({ endDate }) {
-  const distanceOfTimeInWords = formatDistanceToNow(endDate)
+  if (hasEnded) {
+    label = 'Closed'
+    text = format(parsedEndDate, 'io MMMM yyyy')
+    title = `Auction ended on ${formattedEndDate}`
+  } else {
+    label = 'Closing'
+    title = `Auction ends on ${formattedEndDate}`
+    text = formatDistance(now, parsedEndDate)
+  }
 
   return (
-    <h3 class="flex flex-col-reverse ml-3 items-end">
-      <span class="text-gray-600 text-sm">
-        Auction ends
-      </span>
-
-      <span class="text-indigo-900 font-medium text-xl">
-        {distanceOfTimeInWords}
-      </span>
-    </h3>
+    <dl className="flex gap-2">
+      <dt>
+        {label}:
+      </dt>
+      <dd className="font-semibold">
+        <time title={title} dateTime={parsedEndDate}>
+          {text}
+        </time>
+      </dd>
+    </dl>
   )
 }
 

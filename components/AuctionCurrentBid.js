@@ -1,30 +1,34 @@
-import { formatCurrency } from '@/lib/filters'
+import { formatCurrency } from "@/lib/filters"
 
-function AuctionCurrentBid ({ bids = [], minimumBid = 0 }) {
-  const hasBids = bids.length
-  const minimumBidFormatted = minimumBid && formatCurrency(minimumBid)
-  const bidText = hasBids ? 'Current Bid' : 'Starting Bid'
-  const bidCount = bids.length ? <div>{bids.length} Bids</div> : null
-
-  if (minimumBidFormatted) {
-    return (
-      <div>
-        <h3>
-          <span className="block text-gray-600 text-sm uppercase">
-            {bidText}
-          </span>
-
-          <span className="block text-indigo-900 font-semibold text-2xl">
-            {minimumBidFormatted}
-          </span>
-        </h3>
-
-        {bidCount}
-      </div>
-    )  
+function bidText (totalBids) {
+  if (totalBids === 1) {
+    return '1 bid'
+  } else if (totalBids) {
+    return `${totalBids} bids`
   }
 
-  return null
+  return 'No bids'
+}
+
+function AuctionCurrentBid ({ bids, minimumBid }) {
+  const totalBids = bids.length
+  const label = totalBids ? 'Current Bid' : 'Starting Bid'
+  const text = bidText(totalBids)
+
+  return (
+    <dl>
+      <dt className="flex gap-2 items-center">
+        {label}
+
+        <span className="inline-block text-sm font-semibold bg-gray-200 rounded-full px-3 py-0.5">
+          {text}
+        </span>
+      </dt>
+      <dd className="font-semibold">
+        {formatCurrency(minimumBid)}
+      </dd>
+    </dl>
+  )  
 }
 
 export default AuctionCurrentBid

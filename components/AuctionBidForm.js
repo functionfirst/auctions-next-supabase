@@ -1,115 +1,90 @@
-import { formatCurrency } from '@/lib/filters'
 import { useState } from 'react'
+import { supabase } from '@/lib/initSupabase'
+import { formatCurrency } from '@/lib/filters'
 import BaseLabel from '@/components/BaseLabel'
+import BaseInput from '@/components/BaseInput'
+import BidAPIService from '@/services/BidAPIService'
 
-// @todo replace this with auction specific increments
-const increments = [1, 5, 10, 20, 50, 100, 125, 175, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
+const bidAPIService = new BidAPIService(supabase)
 
-function ConfirmPanel ({ bidAmount, setConfirm }) {
-  const confirmBid = async event => {
-    event.preventDefault()
-    console.log('confirm my bid')
+function AuctionBidForm ({
+  auctionId,
+  className,
+  hasEnded,
+  minimumBid
+}) {
+  const user = supabase.auth.user()
+  const [error, setError] = useState(null)
+  const [bidAmount, setBidAmount] = useState('')
+  const [saving, setSaving] = useState(false)
+  const snackbar = error ? <p className="text-red-600 mt-2" role="alert">{error}</p> : null
+
+  if (!user || hasEnded) {
+    return null
+  }
+
+  async function submit (e) {
+    e.preventDefault()
+
+    setError(null)
+    setSaving(true)
+
+    const payload = {
+      auctionId,
+      uid: user.id,
+      value: bidAmount
+    }
+
+    const { error: err } = await bidAPIService.addBid(payload)
+
+    if (err) {
+      setError(err.message)
+    } else {
+      // @todo add a confirmation snackbar
+      setBidAmount('')
+    }
+
+    setSaving(false)
   }
 
   return (
-    <form onSubmit={confirmBid}>
-      <div className="my-4">
-        <BaseLabel>
-          You are about to place a bid for:
-        </BaseLabel>
-
-        <span class="text-2xl font-bold mb-4">
-          {formatCurrency(bidAmount)}
-        </span>
-
-        <input type="hidden" name="formInput" value={bidAmount} />
-
-        <div class="flex flex-col gap-2 items-center justify-between">
-          <button class="w-full bg-indigo-600 hover:bg-indigo-800 rounded py-4 text-white">
-            Confirm Bid
-          </button>
-
-          <button
-            type="button"
-            class="w-full bg-gray-100 text-gray-700 hover:bg-gray-300 rounded py-4"
-            onClick={() => setConfirm(false)}
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </form>
-  )
-}
-
-function BidForm ({ incrementAmount, increments, setConfirm, minimumBidAmount, setIncrementAmount }) {
-  return (
-    <div className="my-4" key="initialPanel">
-      <BaseLabel
-        htmlFor="bidIncrement"
-        class="mb-2"
-      >
-        Select a bid increment
+    <form
+      className={`${className} bg-gray-100 p-4 rounded-sm`}
+      onSubmit={submit}
+    >
+      <BaseLabel htmlFor="bidAmount">
+        Enter a bid amount
       </BaseLabel>
 
-      <div class="flex">
-        <select
-          id="bidIncrement"
-          v-model="incrementAmount"
-          class="appearance-none border px-3 py-3 w-full text-lg"
-          value={incrementAmount}
-          onChange={(event) => setIncrementAmount(event.target.value)}
+      <div className="flex items-stretch relative gap-2">
+        <label
+          htmlFor="bidAmount"
+          className="cursor-pointer flex items-center px-4 absolute left-0 inset-y-0"
         >
-          {increments.map(increment => (
-            <option
-              key={increment}
-              value={increment}
-            >
-              + {formatCurrency(increment)}
-            </option>
-          ))}
-          
-        </select>
+          £
+        </label>
 
-        <button
-          type="button"
-          class="bg-indigo-600 hover:bg-indigo-800 px-6 py-4 rounded-r shadow-md text-center text-sm text-white whitespace-nowrap"
-          onClick={() => setConfirm(true)}
-        >
+        <BaseInput
+          attributes={{
+            id: 'bidAmount',
+            value: bidAmount,
+            name: 'bidAmount',
+            min: minimumBid + 1,
+            onChange: (e) => { setBidAmount(e.target.value) },
+            placeholder: `Minimum bid amount ${formatCurrency(minimumBid + 1)}`,
+            type: 'number',
+            required: true
+          }}
+          className="rounded pl-9"
+        />
+
+        <button className="px-6 py-2 rounded-sm shadow-md text-sm whitespace-nowrap bg-indigo-600 text-white hover:bg-indigo-700">
           Place a Bid
         </button>
       </div>
 
-      <p class="my-2 text-xs text-indigo-900 xtext-center">
-        You'll be able confirm this bid in the next step
-      </p>
-    </div>
-  )
-}
-
-
-function AuctionBidForm ({ minimumBid = 1 }) {
-  const [incrementAmount, setIncrementAmount] = useState(minimumBid) // @todo - replace this with value received via supabase subscription
-  const bidAmount = minimumBid + incrementAmount
-  const [confirm, setConfirm] = useState(false)
-  
-  if (confirm) {
-    return (
-      <ConfirmPanel
-        bidAmount={bidAmount}
-        setConfirm={setConfirm}
-      />
-    )
-  }
-
-  return (
-    <BidForm
-      incrementAmount={incrementAmount}
-      increments={increments}
-      minimumBidAmount={minimumBid}
-      setConfirm={setConfirm}
-      setIncrementAmount={setIncrementAmount}
-    />
+      {snackbar}
+    </form>
   )
 }
 
