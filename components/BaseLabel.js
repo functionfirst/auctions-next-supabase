@@ -1,7 +1,7 @@
 function BaseLabel ({ className = '', children, htmlFor }) {
   return (
     <label
-      className={`${className} ${ htmlFor ? 'cursor-pointer' : null } block uppercase tracking-wide text-gray-700 text-xs font-bold`}
+      className={`${className} ${ htmlFor ? 'cursor-pointer' : null } inline-block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1`}
       htmlFor={htmlFor}
     >
       {children}
