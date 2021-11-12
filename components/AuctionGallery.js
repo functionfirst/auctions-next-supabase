@@ -1,10 +1,10 @@
-function Gallery ({ images }) {
+function Gallery ({ className, images }) {
   return (
     <div
       data-controller="gallery"
       data-gallery-target="carousel"
       data-gallery-current-slide-value="0"
-      className="border-2 bg-gray-100 border-gray-200 flex flex-col items-center relative"
+      className={`${className} border-2 bg-gray-100 border-gray-200 flex flex-col items-center relative`}
       style={{ height: '500px' }}
     >
       <div className="flex w-full overflow-x-scroll snap-x">
