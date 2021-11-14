@@ -20,7 +20,7 @@ const AuctionWatch = ({ className }) => {
   const [loading, setLoading] = useState(false)
   const [watching, setWatching] = useState(false)
   const [error, setError] = useState(null)
-  const payload = { auctionId: id, uid: user.id }
+  const payload = { auction_id: id, user_id: user.id }
 
   useEffect(() => {
     getWatchlist()
