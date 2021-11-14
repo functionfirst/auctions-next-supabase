@@ -1,5 +1,6 @@
 class AuctionAPIService {
   constructor (supabase) {
+    this.supabase = supabase
     this.collection = supabase.from('auctions')
   }
 
@@ -12,12 +13,8 @@ class AuctionAPIService {
       .select('id, slug')
   }
 
-  async findById (id) {
-    return this.collection
-      .select(this.allowedFields)
-      .eq('id', id)
-      .order('value', { foreignTable: 'bids', ascending: false })
-      .single()
+  findById (auction_id) {
+    return this.supabase.rpc('auction_by_id', { auction_id })
   }
 }
 
