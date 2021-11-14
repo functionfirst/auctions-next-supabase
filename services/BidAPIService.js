@@ -7,12 +7,12 @@ class BidAPIService {
     return this.supabase.rpc('create_bid', payload)
   }
 
-  subscribeToAuctionBids(auctionId, fn = () => {}) {
-    const subscriber = `bids:auctionId=eq.${auctionId}`
-
+  subscribeToAuctionBids(auction_id, fn = () => {}) {
+    const collection = `bids:auction_id=eq.${auction_id}`
+    const event = 'INSERT'
     const subscription = this.supabase
-      .from(subscriber)
-      .on('INSERT', payload => fn(payload.new.value))
+      .from(collection)
+      .on(event, payload => fn(payload.new.amount))
       .subscribe()
 
     return () => {
