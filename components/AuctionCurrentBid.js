@@ -10,8 +10,7 @@ function bidText (totalBids) {
   return 'No bids'
 }
 
-function AuctionCurrentBid ({ bids, minimumBid }) {
-  const totalBids = bids.length
+function AuctionCurrentBid ({ highestBid, startAmount, totalBids }) {
   const label = totalBids ? 'Current Bid' : 'Starting Bid'
   const text = bidText(totalBids)
 
@@ -25,7 +24,7 @@ function AuctionCurrentBid ({ bids, minimumBid }) {
         </span>
       </dt>
       <dd className="font-semibold">
-        {formatCurrency(minimumBid)}
+        {formatCurrency(highestBid || startAmount)}
       </dd>
     </dl>
   )  

@@ -11,13 +11,15 @@ function AuctionBidForm ({
   auctionId,
   className,
   hasEnded,
-  minimumBid
+  highestBid,
+  startAmount
 }) {
   const user = supabase.auth.user()
   const [error, setError] = useState(null)
-  const [bidAmount, setBidAmount] = useState('')
+  const [amount, setAmount] = useState('')
   const [saving, setSaving] = useState(false)
   const snackbar = error ? <p className="text-red-600 mt-2" role="alert">{error}</p> : null
+  const minimumBid = highestBid ? highestBid + 1 : startAmount
 
   if (!user || hasEnded) {
     return null
@@ -30,9 +32,9 @@ function AuctionBidForm ({
     setSaving(true)
 
     const payload = {
-      auctionId,
-      uid: user.id,
-      value: bidAmount
+      auction_id: auctionId,
+      user_id: user.id,
+      amount
     }
 
     const { error: err } = await bidAPIService.addBid(payload)
@@ -41,7 +43,7 @@ function AuctionBidForm ({
       setError(err.message)
     } else {
       // @todo add a confirmation snackbar
-      setBidAmount('')
+      setAmount('')
     }
 
     setSaving(false)
@@ -52,13 +54,13 @@ function AuctionBidForm ({
       className={`${className} bg-gray-100 p-4 rounded-sm`}
       onSubmit={submit}
     >
-      <BaseLabel htmlFor="bidAmount">
+      <BaseLabel htmlFor="amount">
         Enter a bid amount
       </BaseLabel>
 
       <div className="flex items-stretch relative gap-2">
         <label
-          htmlFor="bidAmount"
+          htmlFor="amount"
           className="cursor-pointer flex items-center px-4 absolute left-0 inset-y-0"
         >
           £
@@ -66,12 +68,12 @@ function AuctionBidForm ({
 
         <BaseInput
           attributes={{
-            id: 'bidAmount',
-            value: bidAmount,
-            name: 'bidAmount',
-            min: minimumBid + 1,
-            onChange: (e) => { setBidAmount(e.target.value) },
-            placeholder: `Minimum bid amount ${formatCurrency(minimumBid + 1)}`,
+            id: 'amount',
+            value: amount,
+            name: 'amount',
+            min: minimumBid,
+            onChange: (e) => { setAmount(e.target.value) },
+            placeholder: `Minimum bid amount ${formatCurrency(minimumBid)}`,
             type: 'number',
             required: true
           }}

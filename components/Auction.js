@@ -17,14 +17,19 @@ const bidAPIService = new BidAPIService(supabase)
 function Auction ({
   auction
 }) {
-  const minBid = auction.bids.length ? auction.bids[0].value : auction.startAmount
   const now = toDate(new Date())
-  const end = parseISO(auction.endDate)
+  const end = parseISO(auction.end_date)
   const hasEnded = isAfter(now, end)
-  const [minimumBid, setMinimumBid] = useState(minBid)
+  const [highestBid, setHighestBid] = useState(auction.highest_bid || auction.start_amount)
+  const [totalBids, setTotalBids] = useState(auction.total_bids)
+
+  const updateBids = (amount) => {
+    setHighestBid(amount)
+    setTotalBids(prevState => prevState + 1)
+  }
 
   useEffect(() => {
-    const removeSubscription = bidAPIService.subscribeToAuctionBids(auction.id, setMinimumBid)
+    const removeSubscription = bidAPIService.subscribeToAuctionBids(auction.id, updateBids)
     return removeSubscription
   }, [])
 
@@ -42,19 +47,20 @@ function Auction ({
             <hr className="border-t border-gray-200 col-span-2" />
 
             <AuctionCurrentBid
-              bids={auction.bids}
-              minimumBid={minimumBid}
+              totalBids={totalBids}
+              highestBid={highestBid}
+              startAmount={auction.start_amount}
             />
 
             <AuctionEstimate
-              estimateMin={auction.estimateMin}
-              estimateMax={auction.estimateMax}
+              estimateMin={auction.estimate_min}
+              estimateMax={auction.estimate_max}
             />
 
             <AuctionCountdown
               hasEnded={hasEnded}
-              startDate={auction.startDate}
-              endDate={auction.endDate}
+              startDate={auction.start_date}
+              endDate={auction.end_date}
             />
 
             <AuctionSignin className="col-span-2" />
@@ -62,7 +68,8 @@ function Auction ({
             <AuctionBidForm
               auctionId={auction.id}
               hasEnded={hasEnded}
-              minimumBid={minimumBid}
+              highestBid={highestBid}
+              startAmount={auction.start_amount}
               className="col-span-2"
             />
 
