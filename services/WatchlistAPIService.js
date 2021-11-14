@@ -3,24 +3,24 @@ class WatchlistAPIService {
     this.collection = supabase.from('watchlist')
   }
 
-  getWatchById ({ auctionId, uid }) {
+  getWatchById ({ auction_id, user_id }) {
     return this.collection
-      .select('uid, auctionId')
-      .eq('auctionId', auctionId)
-      .eq('uid', uid)
+      .select('user_id, auction_id')
+      .eq('auction_id', auction_id)
+      .eq('user_id', user_id)
   }
 
-  addWatch ({ auctionId, uid }) {
+  addWatch ({ auction_id, user_id }) {
     return this.collection
-      .insert({ auctionId, uid })
+      .insert({ auction_id, user_id })
       .single()
   }
 
-  removeWatch ({ auctionId, uid }) {
+  removeWatch ({ auction_id, user_id }) {
     return this.collection
       .delete()
-      .eq('auctionId', auctionId)
-      .eq('uid', uid)
+      .eq('auction_id', auction_id)
+      .eq('user_id', user_id)
   }
 }
 
