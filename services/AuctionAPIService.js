@@ -1,23 +1,10 @@
 class AuctionAPIService {
-  allowedFields = `
-    id,
-    name,
-    slug,
-    description,
-    endDate,
-    startDate,
-    estimateMin,
-    estimateMax,
-    startAmount,
-    bids (
-      id,
-      value,
-      uid
-    )
-  `
-
   constructor (supabase) {
     this.collection = supabase.from('auctions')
+  }
+
+  discover () {
+    return this.collection.select('id, name, slug').limit(10)
   }
 
   findAll () {

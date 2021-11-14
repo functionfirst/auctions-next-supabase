@@ -1,9 +1,19 @@
+import { useRouter } from 'next/router'
+import { supabase } from '@/lib/initSupabase'
 import Layout from '../components/Layout'
-import { supabase } from '../lib/initSupabase'
-import AuctionList from '../components/AuctionList'
 import Head from 'next/head'
+import AuctionList from '../components/AuctionList'
+import AuctionAPIService from '@/services/AuctionAPIService'
 
-function Discover () {
+const auctionAPIService = new AuctionAPIService(supabase)
+
+function Discover ({ auctions }) {
+  const router = useRouter()
+
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
+
   return (
     <Layout>
       <Head>
@@ -15,10 +25,20 @@ function Discover () {
           Discover
         </h1>
 
-        <AuctionList supabaseClient={supabase} />
+        <AuctionList auctions={auctions} />
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps () {
+  const { error, data: auctions } = await auctionAPIService.discover()
+
+  return {
+    props: {
+      auctions
+    }
+  }
 }
 
 export default Discover
