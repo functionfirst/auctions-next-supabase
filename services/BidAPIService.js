@@ -4,10 +4,7 @@ class BidAPIService {
   }
 
   addBid (payload) {
-    return this.supabase
-      .from('bids')
-      .insert(payload)
-      .single()
+    return this.supabase.rpc('create_bid', payload)
   }
 
   subscribeToAuctionBids(auctionId, fn = () => {}) {
