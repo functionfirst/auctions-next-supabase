@@ -6,6 +6,7 @@ import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
 import { supabase } from '../lib/initSupabase'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 function LoginForm () {
   const router = useRouter()
@@ -135,6 +136,10 @@ function LoginForm () {
 function Login() {
   return (
     <LayoutAuth>
+      <Head>
+        <title>Login - Realtime Auctions</title>
+      </Head>
+
       <LoginForm />
     </LayoutAuth>
   )
