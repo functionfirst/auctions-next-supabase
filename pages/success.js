@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 function Success () {
   return (
-    <LayoutAuth>
+    <>
       <div className="text-center">
         <h1 className="text-2xl font-semibold">
           Check your email
@@ -24,8 +24,10 @@ function Success () {
           </Link>.
         </p>
       </div>
-    </LayoutAuth>
+    </>
   )
 }
+
+Success.layout = LayoutAuth
 
 export default Success

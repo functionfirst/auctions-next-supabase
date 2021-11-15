@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 function ChangePassword() {
   return (
-    <LayoutAccount>
+    <>
       <Head>
         <title>Change Password - Realtime Auctions</title>
       </Head>
@@ -13,10 +13,11 @@ function ChangePassword() {
           Change Password
         </h1>
       </div>
-    </LayoutAccount>
+    </>
   )
 }
 
 ChangePassword.authRequired = true
+ChangePassword.layout = LayoutAccount
 
 export default ChangePassword

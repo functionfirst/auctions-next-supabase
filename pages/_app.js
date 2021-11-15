@@ -3,8 +3,10 @@ import { UserContextProvider } from '@/contexts/UserContext'
 import { supabase } from '@/lib/initSupabase'
 import Head from 'next/head'
 import AuthRequired from '@/components/AuthRequired'
+import LayoutDefault from '../components/Layout'
 
 function MyApp({ Component, pageProps }) {
+  const Layout = Component.layout || LayoutDefault
   let app = <Component {...pageProps} />
 
   if (Component.authRequired) {
@@ -29,7 +31,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <UserContextProvider supabase={supabase}>
-        {app}
+        <Layout {...pageProps}>
+          {app}
+        </Layout>
       </UserContextProvider>
     </>
   )

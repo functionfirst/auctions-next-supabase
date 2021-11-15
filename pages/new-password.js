@@ -4,7 +4,7 @@ import AuthResetPasswordForm from '@/components/AuthResetPasswordForm'
 
 function NewPassword () {
   return (
-    <LayoutAuth>
+    <>
       <Head>
         <title>Reset your password - Realtime Auctions</title>
       </Head>
@@ -14,8 +14,10 @@ function NewPassword () {
       </h1>
 
       <AuthResetPasswordForm />
-    </LayoutAuth>
+    </>
   )
 }
+
+NewPassword.layout = LayoutAuth
 
 export default NewPassword

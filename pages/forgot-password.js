@@ -6,7 +6,7 @@ import AuthSignupLink from '@/components/AuthSignupLink'
 
 function ForgotPassword() {
   return (
-    <LayoutAuth>
+    <>
       <Head>
         <title>Forgot your password? - Realtime Auctions</title>
       </Head>
@@ -24,8 +24,10 @@ function ForgotPassword() {
       <AuthLoginLink />
 
       <AuthSignupLink />
-    </LayoutAuth>
+    </>
   )
 }
+
+ForgotPassword.layout = LayoutAuth
 
 export default ForgotPassword

@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 function Account() {
   return (
-    <LayoutAccount>
+    <>
       <Head>
         <title>Account - Realtime Auctions</title>
       </Head>
@@ -16,10 +16,11 @@ function Account() {
 
         <AccountProfile />
       </div>
-    </LayoutAccount>
+    </>
   )
 }
 
 Account.authRequired = true
+Account.layout = LayoutAccount
 
 export default Account

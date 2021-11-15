@@ -12,7 +12,6 @@ import BaseToggle from '@/components/BaseToggle'
 import BaseInput from '@/components/BaseInput'
 import BaseText from '@/components/BaseText'
 import LoadingButton from '@/components/LoadingButton'
-import Layout from '@/components/Layout'
 import { useUser } from '@/contexts/UserContext'
 
 const auctionAPIService = new AuctionAPIService(supabase)
@@ -94,7 +93,7 @@ function EditAuction () {
   }
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>{auction.name} - Realtime Auctions</title>
       </Head>
@@ -296,7 +295,7 @@ function EditAuction () {
           </div>
         </form>
       </div>
-    </Layout>
+    </>
   )
 }
 

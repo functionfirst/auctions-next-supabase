@@ -3,9 +3,9 @@ import Head from 'next/head'
 import AuthRegisterForm from '@/components/AuthRegisterForm'
 import AuthLoginLink from '@/components/AuthLoginLink'
 
-export default function Register() {
+function Register() {
   return (
-    <LayoutAuth>
+    <>
       <Head>
         <title>Register - Realtime Auctions</title>
       </Head>
@@ -21,6 +21,10 @@ export default function Register() {
       <AuthRegisterForm />
 
       <AuthLoginLink />
-    </LayoutAuth>
+    </>
   )
 }
+
+Register.layout = LayoutAuth
+
+export default Register

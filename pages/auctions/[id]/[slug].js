@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { supabase } from '@/lib/initSupabase'
-import Layout from '@/components/Layout'
 import Head from 'next/head'
 import AuctionAPIService from '@/services/AuctionAPIService'
 import Auction from '@/components/Auction'
@@ -15,12 +14,12 @@ function AuctionDetails({ auction }) {
   }
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>{auction.name} - Realtime Auctions</title>
       </Head>
       <Auction auction={auction} />
-    </Layout>
+    </>
   )
 }
 

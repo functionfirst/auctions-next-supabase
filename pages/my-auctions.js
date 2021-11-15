@@ -1,4 +1,3 @@
-import Layout from '@/components/Layout'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -27,7 +26,7 @@ function MyAuctions() {
   }, [user])
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>My Auctions - Realtime Auctions</title>
       </Head>
@@ -88,7 +87,7 @@ function MyAuctions() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   )
 }
 

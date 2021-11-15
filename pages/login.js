@@ -5,7 +5,7 @@ import AuthSignupLink from '@/components/AuthSignupLink'
 
 function Login() {
   return (
-    <LayoutAuth>
+    <>
       <Head>
         <title>Login - Realtime Auctions</title>
       </Head>
@@ -21,8 +21,10 @@ function Login() {
       <AuthLoginForm />
 
       <AuthSignupLink />
-    </LayoutAuth>
+    </>
   )
 }
+
+Login.layout = LayoutAuth
 
 export default Login

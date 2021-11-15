@@ -1,9 +1,8 @@
-import Layout from '../components/Layout'
 import Head from 'next/head'
 
 function Upcoming() {
   return (
-    <Layout>
+    <>
       <Head>
         <title>Upcoming - Realtime Auctions</title>
       </Head>
@@ -13,7 +12,7 @@ function Upcoming() {
           Upcoming
         </h1>
       </div>
-    </Layout>
+    </>
   )
 }
 

@@ -1,9 +1,8 @@
-import Layout from '../components/Layout'
 import Head from 'next/head'
 
 function Favourites() {
   return (
-    <Layout>
+    <>
       <Head>
         <title>Favourites - Realtime Auctions</title>
       </Head>
@@ -13,7 +12,7 @@ function Favourites() {
           Favourites
         </h1>
       </div>
-    </Layout>
+    </>
   )
 }
 

@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { supabase } from '@/lib/initSupabase'
-import Layout from '../components/Layout'
 import Head from 'next/head'
 import AuctionList from '../components/AuctionList'
 import AuctionAPIService from '@/services/AuctionAPIService'
@@ -15,7 +14,7 @@ function Discover ({ auctions }) {
   }
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Discover - Realtime Auctions</title>
       </Head>
@@ -27,7 +26,7 @@ function Discover ({ auctions }) {
 
         <AuctionList auctions={auctions} />
       </div>
-    </Layout>
+    </>
   )
 }
 
