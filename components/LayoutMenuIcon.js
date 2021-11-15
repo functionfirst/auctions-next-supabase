@@ -1,4 +1,4 @@
-import IconMenu from './IconMenu'
+import { IconMenu } from './Icon'
 
 const LayoutMenuIcon = () => {
   return (

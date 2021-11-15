@@ -1,7 +1,4 @@
-import IconGlobe from './IconGlobe'
-import IconLightning from './IconLightning'
-import IconNotification from './IconNotification'
-import IconScales from './IconScales'
+import { IconGlobe, IconLightning, IconNotification, IconScales } from './Icon'
 
 function ContentHero () {
   return (

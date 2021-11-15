@@ -2,9 +2,7 @@ import WatchlistAPIService from '@/services/WatchlistAPIService'
 import { supabase } from '../lib/initSupabase'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import IconHeart from './IconHeart'
-import IconHeartFull from './IconHeartFull'
-import IconSpinner from './IconSpinner'
+import { IconHeart, IconHeartFull, IconSpinner } from './Icon'
 
 const watchlistAPIService = new WatchlistAPIService(supabase)
 

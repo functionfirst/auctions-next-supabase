@@ -1,7 +1,5 @@
 import { supabase } from '../lib/initSupabase'
-import IconUserCircle from "./IconUserCircle"
-import IconLogout from "./IconLogout"
-import IconLock from "./IconLock"
+import { IconUserCircle, IconLogout, IconLock } from "./Icon"
 import Link from 'next/link'
 import { useEffect } from 'react'
 

@@ -1,5 +1,5 @@
 import BaseButtonRound from './BaseButtonRound'
-import IconSpinner from './IconSpinner'
+import { IconSpinner } from './Icon'
 
 function LoadingButton ({ loading, children, loadingText = 'Loading...' }) {
   const loader = loading ? loadingText : children

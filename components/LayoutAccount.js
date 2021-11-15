@@ -4,8 +4,7 @@ import LayoutHeader from './LayoutHeader'
 import LayoutNavigation from './LayoutNavigation'
 import LayoutMenuIcon from './LayoutMenuIcon'
 import NavLink from './NavLink'
-import IconUserCircle from './IconUserCircle'
-import IconLock from './IconLock'
+import { IconLock, IconUserCircle } from './Icon'
 
 const Layout = ({ children }) => {
   return (
