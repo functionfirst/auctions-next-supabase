@@ -4,6 +4,7 @@ import { formatCurrency } from '@/lib/filters'
 import BaseLabel from '@/components/BaseLabel'
 import BaseInput from '@/components/BaseInput'
 import BidAPIService from '@/services/BidAPIService'
+import { useUser } from '@/contexts/UserContext'
 
 const bidAPIService = new BidAPIService(supabase)
 
@@ -14,7 +15,7 @@ function AuctionBidForm ({
   highestBid,
   startAmount
 }) {
-  const user = supabase.auth.user()
+  const { user } = useUser()
   const [error, setError] = useState(null)
   const [amount, setAmount] = useState('')
   const [saving, setSaving] = useState(false)

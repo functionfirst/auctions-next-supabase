@@ -5,37 +5,42 @@ import LayoutAuth from '../components/LayoutAuth'
 import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
 import LoadingButton from '../components/LoadingButton'
-import { supabase } from '../lib/initSupabase'
 import Head from 'next/head'
+import { useUser } from '@/contexts/UserContext'
 
 function RegisterForm () {
+  const { signup } = useUser()
   const router = useRouter()
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  })
 
-  const signup = async event => {
+  const handleChange = (e) => {
+    const { name, value } = e.target
+
+    const setData = prevState => ({
+      ...prevState,
+      [name]: value
+    })
+
+    setCredentials(setData)
+  }
+
+  const submit = async event => {
     event.preventDefault()
     setLoading(true)
 
-    const email = event.target.email.value
-    const password = event.target.password.value
-    const passwordConfirm = event.target.passwordConfirm.value
+    const [_data, signupError] = await signup(credentials)
 
-    try {
-      if (passwordConfirm !== password) {
-        throw new Error('Please confirm both passwords are the same')
-      }
-
-      const { error } = await supabase.auth.signUp({ email, password })
-
-      if (error) {
-        throw new Error(error.message)
-      }
-
+    if (signupError) {
+      setError(signupError)
+    } else {
       // @todo trigger a success toast message
       router.push('/success')
-    } catch (error) {
-      setError(error.message)
     }
 
     setLoading(false)
@@ -66,7 +71,7 @@ function RegisterForm () {
 
       <form
         className="w-full max-w-lg mt-6"
-        onSubmit={signup}
+        onSubmit={submit}
       >
         <BaseLabel htmlFor="loginEmail" className="mb-2">
           Email Address
@@ -78,6 +83,9 @@ function RegisterForm () {
               id: 'loginEmail',
               name: 'email',
               placeholder: 'your@email.com',
+              type: 'email',
+              value: credentials.email,
+              onChange: handleChange,
               required: true
             }
           }
@@ -96,14 +104,16 @@ function RegisterForm () {
               id: 'loginPassword',
               name: 'password',
               type: 'password',
+              value: credentials.password,
               placeholder: '******************',
+              onChange: handleChange,
               required: true
             }
           }
         />
 
         <BaseLabel
-          htmlFor="loginPasswordConfirm"
+          htmlFor="loginConfirmPassword"
           className="mb-2 mt-6"
         >
           Confirm your password
@@ -112,10 +122,12 @@ function RegisterForm () {
         <BaseInput
           attributes={
             {
-              id: 'loginPasswordConfirm',
-              name: 'passwordConfirm',
+              id: 'loginConfirmPassword',
+              name: 'confirmPassword',
               type: 'password',
+              value: credentials.confirmPassword,
               placeholder: '******************',
+              onChange: handleChange,
               required: true
             }
           }

@@ -3,30 +3,27 @@ import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
 import LayoutAuth from '../components/LayoutAuth'
 import LoadingButton from '../components/LoadingButton'
-import { supabase } from '../lib/initSupabase'
+import { useUser } from '@/contexts/UserContext'
 
 function ForgotPasswordForm () {
+  const { resetPassword } = useUser()
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('')
 
-  const resetPassword = async event => {
+  const submit = async event => {
     event.preventDefault()
-    const email = event.target.resetEmail.value
-
     setError(null)
     setLoading(true)
 
-    try {
-      const { error } = await supabase.auth.api.resetPasswordForEmail(email)
+    const [_data, resetError] = await resetPassword(email)
 
-      if (error) {
-        throw new Error(error.message)
-      }
-
+    if (resetError) {
+      setError(resetError)
+    } else {
       // @todo trigger a success toast message
       alert('Check your email for a password recovery link')
-    } catch (error) {
-      setError(error.message)
+      
     }
 
     setLoading(false)
@@ -53,7 +50,7 @@ function ForgotPasswordForm () {
 
       <form
         className="w-full max-w-lg mt-6"
-        onSubmit={resetPassword}
+        onSubmit={submit}
       >
         <BaseLabel
           htmlFor="resetEmail"
@@ -66,8 +63,8 @@ function ForgotPasswordForm () {
           attributes={
             {
               id: 'resetEmail',
-              name: 'resetEmail',
               type: 'email',
+              onChange: (e) => setEmail(e.target.value),
               placeholder: 'your@email.com',
               required: true
             }

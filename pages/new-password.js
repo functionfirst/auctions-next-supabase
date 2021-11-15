@@ -5,12 +5,15 @@ import BaseInput from '../components/BaseInput'
 import LayoutAuth from '../components/LayoutAuth'
 import LoadingButton from '../components/LoadingButton'
 import { supabase } from '../lib/initSupabase'
+import { useUser } from '@/contexts/UserContext'
 
 function ResetPasswordForm () {
+  const { updatePassword } = useUser()
   const router = useRouter()
   const { access_token } = router.query
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [password, setPassword] = useState('')
 
   const updateUser = async event => {
     event.preventDefault()
@@ -18,14 +21,7 @@ function ResetPasswordForm () {
     setLoading(true)
 
     try {
-      const password = event.target.password.value
-
-      const { error } = await supabase.auth.api.updateUser(
-        access_token,
-        {
-          password
-        }
-      )
+      const { error } = await updatePassword({ accessToken: access_token, password })
 
       if (error) {
         throw new Error(error.message)
@@ -70,8 +66,8 @@ function ResetPasswordForm () {
           attributes={
             {
               id: 'newPassword',
-              name: 'password',
-              type: 'password'
+              type: 'password',
+              onChange: (e) => setPassword(e.target.value)
             }
           }
         />

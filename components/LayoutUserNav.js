@@ -1,19 +1,19 @@
-import { supabase } from '../lib/initSupabase'
 import { IconUserCircle, IconLogout, IconLock } from "./Icon"
 import Link from 'next/link'
 import { useEffect } from 'react'
+import { useUser } from '@/contexts/UserContext' 
 
-const displayUserLinks = (loggedIn) => {
-  const selector = loggedIn ? '[data-auth-not-required]' : '[data-auth-required]'
+const displayUserLinks = (user) => {
+  const selector = user ? '[data-auth-not-required]' : '[data-auth-required]'
   const links = document.querySelectorAll(selector)
   links.forEach(link => link.classList.add('hidden'))
 }
 
 const LayoutUserNav = () => {
-  const loggedIn = supabase.auth.user()
+  const { user } = useUser()
 
   useEffect(() => {
-    displayUserLinks(loggedIn)
+    displayUserLinks(user)
   })
 
   return (

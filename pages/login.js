@@ -4,36 +4,35 @@ import LayoutAuth from "../components/LayoutAuth"
 import LoadingButton from '../components/LoadingButton'
 import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
-import { supabase } from '../lib/initSupabase'
+import { useUser } from '@/contexts/UserContext'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 function LoginForm () {
+  const { signin } = useUser()
   const router = useRouter()
-  const { redirect } = router.query
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const signin = async (event) => {
+  const redirect = router?.query?.redirect || '/'
+
+  const submit = async (event) => {
     event.preventDefault()
     setLoading(true)
 
     const payload = {
       email: event.target.email.value,
-      password: event.target.password.value
+      password: event.target.password.value,
+      redirect
     }
 
-    try {
-      const { error } = await supabase.auth.signIn(payload)
+    const [_data, signinError] = await signin(payload)
 
-      if (error) {
-        throw new Error(error.message)
-      }
-
+    if (signinError) {
+      setError(signinError)
+    } else {
       // @todo trigger a success toast message
-      router.push(redirect || '/')
-    } catch (error) {
-      setError(error)
+      router.push(redirect)
     }
 
     setLoading(false)
@@ -64,7 +63,7 @@ function LoginForm () {
 
       <form
         className="w-full max-w-lg mt-6"
-        onSubmit={signin}
+        onSubmit={submit}
       >
         <BaseLabel
           htmlFor="loginEmail"

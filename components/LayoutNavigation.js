@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { supabase } from '../lib/initSupabase'
 import Link from 'next/link'
+import { useUser } from '@/contexts/UserContext' 
 
-const checkUserLinks = (loggedIn) => {
-  if (loggedIn) { return }
+const checkUserLinks = (user) => {
+  if (user) { return }
   const authRequiredLinks = document.querySelectorAll('[data-auth-required]')
   authRequiredLinks.forEach(link => link.classList.add('hidden'))
 }
@@ -31,10 +31,10 @@ const links = [
 ]
 
 const LayoutNavigation = () => {
-  const loggedIn = supabase.auth.user()
+  const { user } = useUser()
 
   useEffect(() => {
-    checkUserLinks(loggedIn)
+    checkUserLinks(user)
   }, [])
 
   return (

@@ -13,6 +13,7 @@ import BaseInput from '@/components/BaseInput'
 import BaseText from '@/components/BaseText'
 import LoadingButton from '@/components/LoadingButton'
 import Layout from '@/components/Layout'
+import { useUser } from '@/contexts/UserContext'
 
 const auctionAPIService = new AuctionAPIService(supabase)
 
@@ -26,7 +27,7 @@ function BaseCard ({ children, className = '' }) {
 
 function EditAuction () {
   const router = useRouter()
-  const user = supabase.auth.user()
+  const { user } = useUser()
   const auctionId = router.query.id
   const [auction, setAuction] = useState({})
   const [saving, setSaving] = useState(false)

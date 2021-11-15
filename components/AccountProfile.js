@@ -4,9 +4,10 @@ import BaseLabel from '@/components/BaseLabel'
 import BaseInput from '@/components/BaseInput'
 import LoadingButton from '../components/LoadingButton'
 import { executeAsync } from '@/handlers/exceptions'
+import { useUser } from '@/contexts/UserContext'
 
 export default function AccountProfile() {
-  const user = supabase.auth.user()
+  const { user } = useUser()
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [error, setError] =  useState(null)

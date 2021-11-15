@@ -3,11 +3,12 @@ import { supabase } from '../lib/initSupabase'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { IconHeart, IconHeartFull, IconSpinner } from './Icon'
+import { useUser } from '@/contexts/UserContext'
 
 const watchlistAPIService = new WatchlistAPIService(supabase)
 
 const AuctionWatch = ({ className }) => {
-  const user = supabase.auth.user()
+  const { user } = useUser()
 
   if (!user) {
     return null

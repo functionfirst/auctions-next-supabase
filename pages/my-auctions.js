@@ -4,12 +4,13 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/initSupabase'
 import AuctionAPIService from '@/services/AuctionAPIService'
+import { useUser } from '@/contexts/UserContext'
 
 const auctionAPIService = new AuctionAPIService(supabase)
 
 function MyAuctions() {
   const [auctions, setAuctions] = useState([])
-  const user = supabase.auth.user()
+  const { user } = useUser()
 
   useEffect(async () => {
     const { data, error } = await auctionAPIService.myAuctions(user.id)
