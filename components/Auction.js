@@ -23,8 +23,8 @@ function Auction ({
   const [highestBid, setHighestBid] = useState(auction.highest_bid || auction.start_amount)
   const [totalBids, setTotalBids] = useState(auction.total_bids)
 
-  const updateBids = (amount) => {
-    setHighestBid(amount)
+  const updateBids = (payload) => {
+    setHighestBid(payload.new.amount)
     setTotalBids(prevState => prevState + 1)
   }
 
