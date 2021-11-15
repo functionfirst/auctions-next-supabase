@@ -4,6 +4,7 @@ import BaseInput from '../components/BaseInput'
 import LayoutAuth from '../components/LayoutAuth'
 import LoadingButton from '../components/LoadingButton'
 import { useUser } from '@/contexts/UserContext'
+import Head from 'next/head'
 
 function ForgotPasswordForm () {
   const { resetPassword } = useUser()
@@ -40,6 +41,10 @@ function ForgotPasswordForm () {
 
   return (
     <div>
+      <Head>
+        <title>Forgot your password? - Realtime Auctions</title>
+      </Head>
+
       <h1 className="font-semibold text-xl">
         Forgot your password?
       </h1>

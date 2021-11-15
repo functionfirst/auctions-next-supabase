@@ -6,6 +6,7 @@ import LayoutAuth from '../components/LayoutAuth'
 import LoadingButton from '../components/LoadingButton'
 import { supabase } from '../lib/initSupabase'
 import { useUser } from '@/contexts/UserContext'
+import Head from 'next/head'
 
 function ResetPasswordForm () {
   const { updatePassword } = useUser()
@@ -47,6 +48,10 @@ function ResetPasswordForm () {
 
   return (
     <div>
+      <Head>
+        <title>Reset your password - Realtime Auctions</title>
+      </Head>
+
       <h1 className="font-semibold text-xl">
         Set your password
       </h1>
