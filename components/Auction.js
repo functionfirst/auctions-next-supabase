@@ -31,7 +31,7 @@ function Auction ({
   useEffect(() => {
     const removeSubscription = bidAPIService.subscribeToAuctionBids(auction.id, updateBids)
     return removeSubscription
-  }, [])
+  }, [auction.id])
 
   return (
     <>

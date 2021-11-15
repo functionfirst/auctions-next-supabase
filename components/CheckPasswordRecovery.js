@@ -11,7 +11,7 @@ function CheckPasswordRecovery () {
     if (recoverPassword) {
       router.push(`/new-password?${params}`)
     }
-  }, [])
+  }, [params, recoverPassword, router])
 
   return null
 }

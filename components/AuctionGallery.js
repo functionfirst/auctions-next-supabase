@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 function Gallery ({ className, images }) {
   return (
     <div
@@ -15,7 +17,7 @@ function Gallery ({ className, images }) {
             data-gallery-target="image"
             className="flex flex-shrink-0 h-full items-center justify-center snap-start w-full"
           >
-            <img src={image} alt={auction.name} />
+            <Image src={image} alt={auction.name} />
           </div>
         ))}
       </div>

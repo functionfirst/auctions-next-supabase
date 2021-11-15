@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
@@ -47,24 +47,28 @@ function EditAuction () {
     setDirtyAuction(setData)
   }
 
-  const auctionNormaliser = (auction) => {
+  const auctionNormaliser = useCallback((auction) => {
     auction.created_at = format(parseISO(auction.created_at), "io MMM yyyy 'at' HH:mm")
     auction.updated_at = format(parseISO(auction.updated_at), "io MMM yyyy 'at' HH:mm")
     auction.start_date = format(parseISO(auction.start_date), "yyyy-MM-dd'T'hh:mm")
     auction.end_date = format(parseISO(auction.end_date), "yyyy-MM-dd'T'hh:mm")
     setAuction(auction)
-  }
-
-  useEffect(async () => {
-    // @todo secure this to the loggedin user
-    const { data, error: err } = await auctionAPIService.findById(auctionId)
-
-    if (err) {
-      console.log(err.message)
-    } else {
-      auctionNormaliser(data)
-    }
   }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // @todo secure this to the loggedin user
+      const { data, error: err } = await auctionAPIService.findById(auctionId)
+  
+      if (err) {
+        console.log(err.message)
+      } else {
+        auctionNormaliser(data)
+      }
+    }
+
+    fetchData()
+  }, [auctionId, auctionNormaliser])
 
   async function submit(e) {
     e.preventDefault()

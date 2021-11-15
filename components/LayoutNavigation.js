@@ -35,7 +35,7 @@ const LayoutNavigation = () => {
 
   useEffect(() => {
     checkUserLinks(user)
-  }, [])
+  }, [user])
 
   return (
     <nav className="hidden justify-start lg:flex space-x-4 text-sm font-medium">

@@ -1,7 +1,7 @@
 import WatchlistAPIService from '@/services/WatchlistAPIService'
 import { supabase } from '../lib/initSupabase'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { IconHeart, IconHeartFull, IconSpinner } from './Icon'
 import { useUser } from '@/contexts/UserContext'
 
@@ -9,28 +9,27 @@ const watchlistAPIService = new WatchlistAPIService(supabase)
 
 const AuctionWatch = ({ className }) => {
   const { user } = useUser()
-
-  if (!user) {
-    return null
-  }
-
   const router = useRouter()
   const { id } = router.query
   const [loading, setLoading] = useState(false)
   const [watching, setWatching] = useState(false)
   const [error, setError] = useState(null)
-  const payload = { auction_id: id, user_id: user.id }
+  const payload = useMemo(() => ({ auction_id: id, user_id: user.id }), [id, user.id])
 
   useEffect(() => {
-    getWatchlist()
-  }, [])
-
-  async function getWatchlist () {
-    const { data } = await watchlistAPIService.getWatchById(payload)
-
-    if (data) {
-      setWatching(true)
+    const fetchData = async () => {
+      const { data } = await watchlistAPIService.getWatchById(payload)
+  
+      if (data) {
+        setWatching(true)
+      }
     }
+
+    fetchData()
+  }, [payload])
+
+  if (!user) {
+    return null
   }
 
   async function toggleWatchlist() {

@@ -12,14 +12,18 @@ function MyAuctions() {
   const [auctions, setAuctions] = useState([])
   const { user } = useUser()
 
-  useEffect(async () => {
-    const { data, error } = await auctionAPIService.myAuctions(user.id)
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await auctionAPIService.myAuctions(user.id)
 
-    if (error) {
+      if (error) {
 
-    } else {
-      setAuctions(data)
+      } else {
+        setAuctions(data)
+      }
     }
+
+    fetchData()
   }, [user])
 
   return (

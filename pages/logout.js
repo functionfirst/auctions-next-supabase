@@ -8,19 +8,19 @@ function Logout() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    logout()
-  }, [])
-
-  const logout = async () => {
-    const [_data, signoutError] = await signout()
-
-    if (signoutError) {
-      setError(signoutError)
-    } else {
-      // @todo trigger a success toast message
-      router.push('/')
+    const logout = async () => {
+      const [_data, signoutError] = await signout()
+  
+      if (signoutError) {
+        setError(signoutError)
+      } else {
+        // @todo trigger a success toast message
+        router.push('/')
+      }
     }
-  }
+
+    logout()
+  }, [router, signout])
 
   return null
 }

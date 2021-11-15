@@ -15,7 +15,7 @@ function Success () {
         </p>
 
         <p className="max-w-xs mx-auto text-sm text-gray-500">
-          Didn't receive the email? Check your spam filter or
+          Didn&apos;t receive the email? Check your spam filter or
           {' '}
           <Link href="/register">
             <a className="text-indigo-600 hover:text-indigo-800">

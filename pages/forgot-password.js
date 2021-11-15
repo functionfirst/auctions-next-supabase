@@ -16,7 +16,7 @@ function ForgotPassword() {
       </h1>
 
       <p className="text-gray-500 mt-2">
-        Enter the email associated with your account and we'll send an email with a link to reset your password.
+        Enter the email associated with your account and we&apos;ll send an email with a link to reset your password.
       </p>
 
       <AuthForgotPasswordForm />

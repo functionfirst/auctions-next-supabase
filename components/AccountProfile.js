@@ -12,28 +12,33 @@ export default function AccountProfile() {
   const [name, setName] = useState('')
   const [error, setError] =  useState(null)
 
+
   useEffect(() => {
-    getProfile()
-  }, [])
-
-  const fetchProfileData = async () => await supabase.from('profiles').select(`name`).eq('id', user.id).single()
-
-  const updateProfileData = async (payload) => await supabase.from('profiles').upsert(payload, {
-    returning: 'minimal' // Don't return the value after inserting
-  })
-
-  async function getProfile() {
-    setLoading(true)
-    const [res, err] = await executeAsync(fetchProfileData)
-
-    if (err) {
-      setError(err)
-    } else {
-      const { name } = res.data
-      setName(name)
+    const fetchProfileData = async () => {
+      return await supabase.from('profiles').select(`name`).eq('id', user.id).single()
     }
 
-    setLoading(false)
+    const fetchData = async () => {
+      setLoading(true)
+      const [res, err] = await executeAsync(fetchProfileData)
+  
+      if (err) {
+        setError(err)
+      } else {
+        const { name } = res.data
+        setName(name)
+      }
+  
+      setLoading(false)
+    }
+
+    fetchData()
+  }, [user.id])
+
+  async function updateProfileData (payload) {
+    return await supabase.from('profiles').upsert(payload, {
+      returning: 'minimal' // Don't return the value after inserting
+    })
   }
 
   async function updateProfile(e) {

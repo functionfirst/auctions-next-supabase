@@ -1,7 +1,8 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 function AuctionCard({ className, auction }) {
-  const image = auction.image ? <img src={auction.image} /> :null
+  const image = auction.image ? <Image src={auction.image} alt='' /> :null
 
   return (
     <Link href={`/auctions/${auction.id}/${auction.slug}`}>
