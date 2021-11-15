@@ -1,51 +1,40 @@
 import { IconUserCircle, IconLogout, IconLock } from "./Icon"
 import Link from 'next/link'
-import { useEffect } from 'react'
 import { useUser } from '@/contexts/UserContext' 
-
-const displayUserLinks = (user) => {
-  const selector = user ? '[data-auth-required]' : '[data-auth-not-required]'
-  const links = document.querySelectorAll(selector)
-  links.forEach(link => link.classList.replace('hidden', 'flex'))
-}
 
 const LayoutUserNav = () => {
   const { user } = useUser()
 
-  useEffect(() => {
-    displayUserLinks(user)
-  })
-
   return (
     <div className="justify-end md:flex-1 lg:w-0 hidden sm:flex flex-auto items-center">
       <div className="gap-2 ml-3 relative flex items-center tracking-wider font-semibold text-sm">
-        <Link href="/login">
-          <a className="hidden gap-1 items-center px-4 py-2 text-gray-500 hover:text-indigo-800" data-auth-not-required>
+        { !user ? <Link href="/login">
+          <a className="flex gap-1 items-center px-4 py-2 text-gray-500 hover:text-indigo-800">
             <IconLock className="w-6 h-6" />
             Log In
           </a>
-        </Link>
+        </Link> : null }
 
-        <Link href="/register">
-          <a className="hidden gap-1 items-center px-6 py-2 bg-indigo-500 hover:bg-indigo-400 rounded-full text-white" data-auth-not-required>
+        { !user ? <Link href="/register">
+          <a className="flex gap-1 items-center px-6 py-2 bg-indigo-500 hover:bg-indigo-400 rounded-full text-white">
             <IconUserCircle className="w-6 h-6" />
             Sign Up
           </a>
-        </Link>
+        </Link> : null }
 
-        <Link href="/account">
-          <a className="hidden items-center px-4 py-2 text-gray-500 hover:text-indigo-800" data-auth-required>
+        { user ? <Link href="/account">
+          <a className="flex items-center px-4 py-2 text-gray-500 hover:text-indigo-800">
             <IconUserCircle className="w-6 h-6" />
             Your Account
           </a>
-        </Link>
+        </Link> : null }
 
-        <Link href="/logout">
-          <a className="hidden items-center px-4 py-2 text-gray-500 hover:text-indigo-800" data-auth-required>
+        { user ? <Link href="/logout">
+          <a className="flex items-center px-4 py-2 text-gray-500 hover:text-indigo-800">
             <IconLogout className="w-6 h-6" />
             Logout
           </a>
-        </Link>
+        </Link> : null }
       </div>
     </div>
   )
