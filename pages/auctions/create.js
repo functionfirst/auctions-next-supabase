@@ -3,7 +3,7 @@ function CreateAuction () {
     <>
       Create an Auction
     </>
-  )  
+  )
 }
 
 EditAuction.authRequired = true
