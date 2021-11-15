@@ -4,7 +4,6 @@ import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
 import LayoutAuth from '../components/LayoutAuth'
 import LoadingButton from '../components/LoadingButton'
-import { supabase } from '../lib/initSupabase'
 import { useUser } from '@/contexts/UserContext'
 import Head from 'next/head'
 
@@ -21,17 +20,17 @@ function ResetPasswordForm () {
     setError(null)
     setLoading(true)
 
-    try {
-      const { error } = await updatePassword({ accessToken: access_token, password })
+    const [_data, updateError] = await updatePassword({
+      accessToken: access_token,
+      password
+    })
 
-      if (error) {
-        throw new Error(error.message)
-      }
-
+    if (updateError) {
+      setError(updateError)
+    } else {
       // @todo trigger a success toast message
-      router.push('/')
-    } catch (error) {
-      setError(error.message)
+      alert('Your password has been reset')
+      // router.push('/')
     }
 
     setLoading(false)
@@ -53,12 +52,12 @@ function ResetPasswordForm () {
       </Head>
 
       <h1 className="font-semibold text-xl">
-        Set your password
+        Reset your password
       </h1>
 
       <form
         className="w-full max-w-lg mt-6"
-        onSubmit={updateUser}
+        onSubmit={submit}
       >
         <BaseLabel
           htmlFor="newPassword"
@@ -72,7 +71,9 @@ function ResetPasswordForm () {
             {
               id: 'newPassword',
               type: 'password',
-              onChange: (e) => setPassword(e.target.value)
+              value: password,
+              onChange: (e) => setPassword(e.target.value),
+              required: true
             }
           }
         />
