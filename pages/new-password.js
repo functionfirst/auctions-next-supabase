@@ -16,8 +16,8 @@ function ResetPasswordForm () {
   const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
 
-  const updateUser = async event => {
-    event.preventDefault()
+  const submit = async e => {
+    e.preventDefault()
     setError(null)
     setLoading(true)
 

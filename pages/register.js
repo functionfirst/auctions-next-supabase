@@ -30,8 +30,8 @@ function RegisterForm () {
     setCredentials(setData)
   }
 
-  const submit = async event => {
-    event.preventDefault()
+  const submit = async e => {
+    e.preventDefault()
     setLoading(true)
 
     const [_data, signupError] = await signup(credentials)

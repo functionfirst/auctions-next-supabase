@@ -12,8 +12,8 @@ function ForgotPasswordForm () {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
 
-  const submit = async event => {
-    event.preventDefault()
+  const submit = async e => {
+    e.preventDefault()
     setError(null)
     setLoading(true)
 
@@ -24,7 +24,6 @@ function ForgotPasswordForm () {
     } else {
       // @todo trigger a success toast message
       alert('Check your email for a password recovery link')
-      
     }
 
     setLoading(false)
