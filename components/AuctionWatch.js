@@ -1,7 +1,7 @@
 import WatchlistAPIService from '@/services/WatchlistAPIService'
 import { supabase } from '../lib/initSupabase'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IconHeart, IconHeartFull, IconSpinner } from './Icon'
 import { useUser } from '@/contexts/UserContext'
 
@@ -14,11 +14,15 @@ const AuctionWatch = ({ className }) => {
   const [loading, setLoading] = useState(false)
   const [watching, setWatching] = useState(false)
   const [error, setError] = useState(null)
-  const payload = useMemo(() => ({ auction_id: id, user_id: user.id }), [id, user.id])
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await watchlistAPIService.getWatchById(payload)
+      if (!user) { return }
+
+      const { data } = await watchlistAPIService.getWatchById({
+        auction_id: id,
+        user_id: user.id
+      })
   
       if (data) {
         setWatching(true)
@@ -26,18 +30,16 @@ const AuctionWatch = ({ className }) => {
     }
 
     fetchData()
-  }, [payload])
-
-  if (!user) {
-    return null
-  }
+  }, [id, user])
 
   async function toggleWatchlist() {
     setError(null)
     setLoading(true)
 
     const action = watching ? 'removeWatch' : 'addWatch'
-    const { error: err } = await watchlistAPIService[action](payload)
+    const { error: err } = await watchlistAPIService[action]({
+      auction_id: id, user_id: user.id
+    })
 
     if (err) {
       setError(err.message)
@@ -65,17 +67,21 @@ const AuctionWatch = ({ className }) => {
     icon = <IconSpinner className="w-4 h-4" />
   }
 
-  return (
-    <button
-      type="button"
-      disabled={loading}
-      className={classes.join(' ')}
-      onClick={toggleWatchlist}
-    >
-      {icon}
-      {text}
-    </button>
-  )
+  if (user) {
+    return (
+      <button
+        type="button"
+        disabled={loading}
+        className={classes.join(' ')}
+        onClick={toggleWatchlist}
+      >
+        {icon}
+        {text}
+      </button>
+    )
+  }
+
+  return null
 }
 
 export default AuctionWatch

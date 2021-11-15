@@ -97,5 +97,4 @@ function Auction ({
   )
 }
 
-
 export default Auction
