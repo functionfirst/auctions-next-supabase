@@ -11,22 +11,32 @@ import Head from 'next/head'
 function LoginForm () {
   const { signin } = useUser()
   const router = useRouter()
+  const redirect = router?.query?.redirect || '/'
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+    redirect
+  })
 
-  const redirect = router?.query?.redirect || '/'
+  const handleChange = (e) => {
+    const { name, value } = e.target
 
-  const submit = async (event) => {
-    event.preventDefault()
+    const setData = prevState => ({
+      ...prevState,
+      [name]: value
+    })
+
+    setCredentials(setData)
+  }
+
+
+  const submit = async (e) => {
+    e.preventDefault()
     setLoading(true)
 
-    const payload = {
-      email: event.target.email.value,
-      password: event.target.password.value,
-      redirect
-    }
-
-    const [_data, signinError] = await signin(payload)
+    const [_data, signinError] = await signin(credentials)
 
     if (signinError) {
       setError(signinError)
@@ -77,6 +87,8 @@ function LoginForm () {
             {
               id: "loginEmail",
               name: 'email',
+              value: credentials.email,
+              onChange: handleChange,
               placeholder: "your@email.com",
               required: true
             }
@@ -104,6 +116,8 @@ function LoginForm () {
               id: 'loginPassword',
               type: 'password',
               name: 'password',
+              value: credentials.password,
+              onChange: handleChange,
               placeholder: '******************',
               required: true
             }
