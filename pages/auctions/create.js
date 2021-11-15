@@ -6,6 +6,6 @@ function CreateAuction () {
   )
 }
 
-EditAuction.authRequired = true
+CreateAuction.authRequired = true
 
 export default CreateAuction
