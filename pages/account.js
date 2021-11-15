@@ -20,4 +20,6 @@ function Account() {
   )
 }
 
+Account.authRequired = true
+
 export default Account

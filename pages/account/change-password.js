@@ -1,7 +1,7 @@
 import LayoutAccount from '@/components/LayoutAccount'
 import Head from 'next/head'
 
-function Account() {
+function ChangePassword() {
   return (
     <LayoutAccount>
       <Head>
@@ -17,4 +17,6 @@ function Account() {
   )
 }
 
-export default Account
+ChangePassword.authRequired = true
+
+export default ChangePassword

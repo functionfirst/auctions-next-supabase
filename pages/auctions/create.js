@@ -1,4 +1,4 @@
-function Create () {
+function CreateAuction () {
   return (
     <>
       Create an Auction
@@ -6,4 +6,6 @@ function Create () {
   )  
 }
 
-export default Create
+EditAuction.authRequired = true
+
+export default CreateAuction

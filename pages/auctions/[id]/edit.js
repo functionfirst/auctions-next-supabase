@@ -296,4 +296,6 @@ function EditAuction () {
   )
 }
 
+EditAuction.authRequired = true
+
 export default EditAuction

@@ -88,4 +88,6 @@ function MyAuctions() {
   )
 }
 
+MyAuctions.authRequired = true
+
 export default MyAuctions
