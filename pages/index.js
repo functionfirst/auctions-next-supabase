@@ -1,8 +1,10 @@
 import ContentHero from '../components/ContentHero'
-import CheckPasswordRecovery from '../components/CheckPasswordRecovery'
+import useCheckPasswordRecovery from '@/hooks/useCheckPasswordRecovery'
 import Head from 'next/head'
 
 function Home() {
+  useCheckPasswordRecovery()
+
   return (
     <>
       <Head>
@@ -10,7 +12,6 @@ function Home() {
       </Head>
 
       <ContentHero />
-      <CheckPasswordRecovery />
     </>
   )
 }
