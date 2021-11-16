@@ -5,7 +5,6 @@ import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
 import { supabase } from '@/lib/initSupabase'
 import Head from 'next/head'
-import { formatCurrency } from "@/lib/filters"
 import AuctionAPIService from '@/services/AuctionAPIService'
 import BaseLabel from '@/components/BaseLabel'
 import BaseToggle from '@/components/BaseToggle'
@@ -15,14 +14,6 @@ import LoadingButton from '@/components/LoadingButton'
 import { useUser } from '@/contexts/UserContext'
 
 const auctionAPIService = new AuctionAPIService(supabase)
-
-function BaseCard ({ children, className = '' }) {
-  return (
-    <div className={`${className}`}>
-      {children}
-    </div>
-  )
-}
 
 function EditAuction () {
   const router = useRouter()
