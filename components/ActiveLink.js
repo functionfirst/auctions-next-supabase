@@ -2,16 +2,16 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
-NavLink.propTypes = {
+ActiveLink.propTypes = {
   href: PropTypes.string.isRequired,
   exact: PropTypes.bool
 };
 
-NavLink.defaultProps = {
+ActiveLink.defaultProps = {
   exact: false
 }
 
-function NavLink({ href, exact, children, ...props }) {
+function ActiveLink({ href, exact, children, ...props }) {
   const { pathname } = useRouter()
   const isActive = exact ? pathname === href : pathname.startsWith(href)
 
@@ -28,4 +28,4 @@ function NavLink({ href, exact, children, ...props }) {
   );
 }
 
-export default NavLink
+export default ActiveLink

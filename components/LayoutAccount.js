@@ -3,7 +3,7 @@ import LayoutHeaderLogo from './LayoutHeaderLogo'
 import LayoutHeader from './LayoutHeader'
 import LayoutNavigation from './LayoutNavigation'
 import LayoutMenuIcon from './LayoutMenuIcon'
-import NavLink from './NavLink'
+import ActiveLink from './ActiveLink'
 import { IconLock, IconUserCircle } from './Icon'
 
 const Layout = ({ children }) => {
@@ -18,22 +18,22 @@ const Layout = ({ children }) => {
 
       <div className="max-w-6xl mx-auto flex gap-4 p-4 sm:px-6">
         <div className="flex flex-col gap-2 w-64">
-          <NavLink href="/account"
+          <ActiveLink href="/account"
             className="flex gap-2 py-2 px-4 rounded hover:bg-gray-100"
             exact
             activeClassName="bg-white text-indigo-600 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-800"
           >
             <IconUserCircle className="w-6 h-6" />
             Profile
-          </NavLink>
+          </ActiveLink>
 
-          <NavLink href="/account/change-password"
+          <ActiveLink href="/account/change-password"
             className="flex gap-2 py-2 px-4 rounded hover:bg-gray-100"
             activeClassName="bg-white text-indigo-600 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-800"
           >
             <IconLock className="w-6 h-6" />
             Password
-          </NavLink>
+          </ActiveLink>
         </div>
 
         <main className="flex-1">
