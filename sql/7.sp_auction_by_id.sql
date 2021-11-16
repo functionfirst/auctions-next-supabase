@@ -18,6 +18,10 @@ begin
   order by bids.amount desc
   limit 1;
 
-  return result;
+  if found then
+    return result;
+  else
+    raise exception 'The auction was not found';
+  end if;
 end;
 $$;
