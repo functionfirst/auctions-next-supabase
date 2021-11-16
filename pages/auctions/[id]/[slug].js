@@ -1,16 +1,14 @@
-import { useRouter } from 'next/router'
 import { supabase } from '@/lib/initSupabase'
+import ErrorPage from 'next/error'
 import Head from 'next/head'
 import AuctionAPIService from '@/services/AuctionAPIService'
 import Auction from '@/components/Auction'
 
 const auctionAPIService = new AuctionAPIService(supabase)
 
-function AuctionDetails({ auction }) {
-  const router = useRouter()
-
-  if (router.isFallback) {
-    return <div>Loading...</div>
+function AuctionDetails({ auction, error, status }) {
+  if (!auction) {
+    return <ErrorPage statusCode={status} title={error} />
   }
 
   return (
@@ -18,30 +16,28 @@ function AuctionDetails({ auction }) {
       <Head>
         <title>{auction.name} - Realtime Auctions</title>
       </Head>
+
       <Auction auction={auction} />
     </>
   )
 }
 
-const getParams = auction => ({
-  params: {
-    id: JSON.stringify(auction.id),
-    slug: auction.slug
+export async function getServerSideProps ({
+  params,
+  res
+}) {
+  const { data: auction, error, status } = await auctionAPIService.findById(params.id)
+
+  if (error) {
+    res.statusCode = status
+
+    return {
+      props: {
+        error: error.message,
+        status
+      }
+    }
   }
-})
-
-export async function getStaticPaths () {
-  const { data } = await auctionAPIService.findAll()
-  const paths = data.map(getParams)
-
-  return {
-    paths,
-    fallback: true
-  }
-}
-
-export async function getStaticProps ({ params }) {
-  const { data: auction } = await auctionAPIService.findById(params.id)
 
   return {
     props: {
