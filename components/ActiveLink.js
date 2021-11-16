@@ -1,31 +1,28 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
+import React, { Children } from 'react'
 
-ActiveLink.propTypes = {
-  href: PropTypes.string.isRequired,
-  exact: PropTypes.bool
-};
+function ActiveLink({ children, activeClassName, ...props }) {
+  const { asPath } = useRouter()
+  const child = Children.only(children)
+  const childClassName = child.props.className || ''
 
-ActiveLink.defaultProps = {
-  exact: false
-}
-
-function ActiveLink({ href, exact, children, ...props }) {
-  const { pathname } = useRouter()
-  const isActive = exact ? pathname === href : pathname.startsWith(href)
-
-  if (isActive) {
-    props.className += props.activeClassName
-  }
+  const className = asPath === props.href || asPath === props.as ?
+    `${childClassName} ${activeClassName}`.trim() :
+    childClassName
 
   return (
-    <Link href={href}>
-      <a {...props}>
-        {children}
-      </a>
+    <Link {...props}>
+      {React.cloneElement(child, {
+        className: className || null,
+      })}
     </Link>
-  );
+  )
+}
+
+ActiveLink.propTypes = {
+  activeClassName: PropTypes.string.isRequired
 }
 
 export default ActiveLink
