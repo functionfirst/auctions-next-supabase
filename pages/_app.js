@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
   if (Component.authRequired) {
     app = <AuthRequired>{app}</AuthRequired>
   }
-1
+
   return (
     <>
       <Head>
