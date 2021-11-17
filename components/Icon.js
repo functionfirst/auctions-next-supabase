@@ -131,10 +131,8 @@ export const IconScales = ({ className }) => {
 }
 
 export const IconSpinner = ({ className }) => {
-  className += 'animate-spin -ml-1 text-current'
-
   return (
-    <Icon className={className}>
+    <Icon className={`${className} animate-spin -ml-1`}>
       <circle
         className="opacity-25"
         cx="12"
