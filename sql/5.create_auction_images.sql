@@ -8,13 +8,13 @@ create table auction_images (
 alter table auction_images enable row level security;
 
 create policy "Users can insert auction images." on auction_images for
-    insert with check ( auth.uid() = user_id );
-
--- create policy "Users can update their own auction images." on auction_images for
---     update using (auth.uid() = user_id);
+    insert with check ( role() = 'authenticated'::text )
 
 create policy "Auction images are public." on auctions for
     select using (true);
+
+create policy "User can create an auction image" on auction_images for
+  insert with check ( role() = 'authenticated'::text )
 
 -- Set up Storage!
 -- insert into storage.buckets (id, name)
