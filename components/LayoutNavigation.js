@@ -1,12 +1,5 @@
-import { useEffect } from 'react'
 import Link from 'next/link'
 import { useUser } from '@/contexts/UserContext' 
-
-const checkUserLinks = (user) => {
-  if (user) { return }
-  const authRequiredLinks = document.querySelectorAll('[data-auth-required]')
-  authRequiredLinks.forEach(link => link.classList.add('hidden'))
-}
 
 const links = [
   {
@@ -24,23 +17,19 @@ const links = [
   {
     to: "/my-auctions",
     name: "My Auctions",
-    attributes: {
-      "data-auth-required": true
-    }
+    authRequired: true
   }
 ]
 
 const LayoutNavigation = () => {
   const { user } = useUser()
-
-  useEffect(() => {
-    checkUserLinks(user)
-  }, [user])
+  const isAuthorisedOrPublic = link => !link.authRequired || link.authRequired && user
+  const navLinks = links.filter(isAuthorisedOrPublic)
 
   return (
     <nav className="hidden justify-start lg:flex space-x-4 text-sm font-medium">
       {
-        links.map(link => (
+        navLinks.map(link => (
           <Link
             key={link.to}
             href={link.to}
