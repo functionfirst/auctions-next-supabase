@@ -15,7 +15,7 @@ create trigger handle_updated_at before update on profiles
 alter table profiles enable row level security;
 
 create policy "Users can insert their own profile." on profiles for
-    insert with check ( auth.uid() = useer_id );
+    insert with check ( auth.uid() = user_id );
 
 create policy "Users can update their own profiles." on profiles for
     update using (auth.uid() = user_id);
