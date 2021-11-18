@@ -19,7 +19,19 @@ function EditAuction () {
   const router = useRouter()
   const { user } = useUser()
   const auctionId = router.query.id
-  const [auction, setAuction] = useState({})
+  const [auction, setAuction] = useState({
+    name: '',
+    description: '',
+    featured: false,
+    enabled: false,
+    start_date: '',
+    end_date: '',
+    start_amount: '',
+    estimate_min: '',
+    estimate_max: '',
+    updated_at: '',
+    created_at: ''
+  })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   const [dirtyAuction, setDirtyAuction] = useState({})
@@ -33,7 +45,6 @@ function EditAuction () {
     })
 
     setAuction(setData)
-
     setDirtyAuction(setData)
   }
 
