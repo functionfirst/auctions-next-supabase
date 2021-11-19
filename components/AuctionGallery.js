@@ -46,6 +46,7 @@ function AuctionGallery ({ className = '', images }) {
             onClick={() => setPreview(image)}
           >
             <GalleryImage imageUrl={image.image_url} />
+            <span class="sr-only">Display Image</span>
           </button>
         ))}
       </div>
