@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { supabase } from '@/lib/initSupabase'
 import { useUser } from '@/contexts/UserContext'
 
 function AuctionSignin ({ className }) {

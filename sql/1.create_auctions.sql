@@ -18,20 +18,34 @@ create table auctions (
 -- Update updated_at field each time the record is updated
 create extension if not exists moddatetime schema extensions;
 
-create trigger handle_updated_at before update on auctions
-    for each row execute procedure moddatetime (updated_at);
+create trigger handle_updated_at
+  before update
+  on auctions
+  for each row execute procedure moddatetime (updated_at);
 
 -- Set row level security
 alter table auctions enable row level security;
 
-create policy "Individuals can create auctions." on auctions for
-    insert with check (auth.uid() = owner_id);
+create policy "Auctions are public."
+  on auctions
+  for select using (
+    true
+  );
 
-create policy "Individuals can update their own auctions." on auctions for
-    update using (auth.uid() = owner_id);
+create policy "Users can create auctions."
+  on auctions
+  for insert with check (
+    (auth.uid() = owner_id)
+  );
 
-create policy "Individuals can delete their own auctions." on auctions for
-    delete using (auth.uid() = owner_id);
+create policy "Users can update their own auctions."
+  on auctions
+  for update using (
+    (auth.uid() = owner_id)
+  );
 
-create policy "Auctions are public." on auctions for
-    select using (true);
+create policy "Users can delete their own auctions."
+  on auctions
+  for delete using (
+    (auth.uid() = owner_id)
+  );

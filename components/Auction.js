@@ -37,7 +37,7 @@ function Auction ({
     <>
       <div className="max-w-6xl mx-auto md:my-12 p-6">
         <div className="grid md:grid-cols-2 auto-rows-min gap-16">
-          <AuctionGallery images={[]} />
+          <AuctionGallery images={auction.images} />
 
           <div className="grid auto-rows-min grid-cols-2 gap-6">
             <h1 className="text-2xl font-semibold text-gray-700 col-span-2">

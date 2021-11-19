@@ -1,8 +1,6 @@
-import LayoutUserNav from './LayoutUserNav'
 import LayoutHeaderLogo from './LayoutHeaderLogo'
 import LayoutHeader from './LayoutHeader'
 import LayoutNavigation from './LayoutNavigation'
-import LayoutMenuIcon from './LayoutMenuIcon'
 import ActiveLink from './ActiveLink'
 import { IconLock, IconUserCircle } from './Icon'
 
@@ -11,9 +9,7 @@ const Layout = ({ children }) => {
     <>
       <LayoutHeader>
         <LayoutHeaderLogo />
-        <LayoutMenuIcon />
         <LayoutNavigation />
-        <LayoutUserNav />
       </LayoutHeader>
 
       <div className="max-w-6xl mx-auto flex gap-4 p-4 sm:px-6">

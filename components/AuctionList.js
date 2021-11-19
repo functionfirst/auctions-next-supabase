@@ -2,13 +2,13 @@ import AuctionCard from '../components/AuctionCard'
 
 function AuctionList({ auctions }) {
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-6">
       {
         auctions.map(auction => (
           <AuctionCard
             key={auction.id.toString()}
             auction={auction}
-            className="w-1/3"
+            className="w-1/4"
           />
         ))
       }
