@@ -5,7 +5,7 @@ class AuctionAPIService {
   }
 
   discover () {
-    return this.collection.select('id, name, slug').limit(10)
+    return this.collection.select('id, name, slug, auction_images(image_url)').limit(10)
   }
 
   myAuctions (user_id) {
