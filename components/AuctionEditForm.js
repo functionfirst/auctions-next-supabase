@@ -12,7 +12,7 @@ function AuctionEditForm ({ className }) {
 
   useEffect(() => {
     fetchAuction()
-  }, [])
+  }, [fetchAuction])
 
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target

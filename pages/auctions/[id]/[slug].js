@@ -42,10 +42,14 @@ export async function getStaticPaths () {
 
 export async function getStaticProps ({ params }) {
   const { data: auction } = await auctionAPIService.findById(params.id)
+  const { data: images } = await supabase.from('auction_images').select('id, image_url').eq('auction_id', params.id)
+
+  auction.images = images
 
   return {
     props: {
-      auction
+      auction,
+      images
     }
   }
 }
