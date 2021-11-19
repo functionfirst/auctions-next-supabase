@@ -1,5 +1,6 @@
 import 'tailwindcss/tailwind.css'
 import { UserContextProvider } from '@/contexts/UserContext'
+import { AppContextProvider } from '@/contexts/AppContext'
 import { supabase } from '@/lib/initSupabase'
 import Head from 'next/head'
 import AuthRequired from '@/components/AuthRequired'
@@ -36,11 +37,13 @@ function MyApp({ Component, pageProps }) {
         <meta name="theme-color" content="#ffffff" />
       </Head>
 
-      <UserContextProvider supabase={supabase}>
-        <Layout {...pageProps}>
-          {app}
-        </Layout>
-      </UserContextProvider>
+      <AppContextProvider >
+        <UserContextProvider supabase={supabase}>
+          <Layout {...pageProps}>
+            {app}
+          </Layout>
+        </UserContextProvider>
+      </AppContextProvider>
     </>
   )
 }

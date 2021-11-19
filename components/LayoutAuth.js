@@ -8,8 +8,6 @@ const Layout = ({ children }) => {
     <>
       <LayoutHeader>
         <LayoutHeaderLogo />
-        <LayoutMenuIcon />
-        <LayoutUserNav />
       </LayoutHeader>
 
       <main className="mx-auto max-w-lg p-8">
