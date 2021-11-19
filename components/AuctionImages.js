@@ -59,7 +59,7 @@ function AuctionImages ({ className = '' }) {
 
   useEffect(() => {
     fetchAuctionImages()
-  }, [])
+  }, [fetchAuctionImages])
 
   return (
     <div className={`${className} grid grid-cols-4 gap-6 mb-6`}>

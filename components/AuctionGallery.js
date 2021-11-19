@@ -5,10 +5,6 @@ import { supabase } from '@/lib/initSupabase'
 function GalleryImage ({ imageUrl, size = 64 }) {
   const [src, setSrc] = useState('')
 
-  if (!imageUrl) {
-    return null
-  }
-
   useEffect(() => {
     const fetchImage = () => {
       const { publicURL, error} = supabase.storage.from('auction-images').getPublicUrl(imageUrl)
@@ -45,11 +41,11 @@ function AuctionGallery ({ className = '', images }) {
     <div className={`${className} flex gap-6 items-start`}>
       <div className="flex flex-col gap-6">
         {images.map(image => (
-          <button onClick={() => setPreview(image)}>
-            <GalleryImage
-              key={image.id}
-              imageUrl={image.image_url}
-            />
+          <button
+            key={image.id}
+            onClick={() => setPreview(image)}
+          >
+            <GalleryImage imageUrl={image.image_url} />
           </button>
         ))}
       </div>

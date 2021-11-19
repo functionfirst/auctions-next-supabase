@@ -21,7 +21,7 @@ function AuctionCard({ className, auction }) {
     }
 
     fetchImage()
-  }, [])
+  }, [auction.auction_images])
 
   return (
     <Link href={`/auctions/${auction.id}/${auction.slug}`}>
