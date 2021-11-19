@@ -1,47 +1,25 @@
-import Link from 'next/link'
-import { useUser } from '@/contexts/UserContext' 
+import LayoutUserNav from './LayoutUserNav'
+import LayoutMenu from './LayoutMenu'
+import LayoutMenuIcon from './LayoutMenuIcon'
+import { useApp } from '@/contexts/AppContext'
 
-const links = [
-  {
-    to: "/discover",
-    name: "Discover"
-  },
-  {
-    to: "/upcoming",
-    name: "Upcoming"
-  },
-  {
-    to: "/favourites",
-    name: "Favourites"
-  },
-  {
-    to: "/my-auctions",
-    name: "My Auctions",
-    authRequired: true
-  }
-]
+function LayoutNav () {
+  const { navActive } = useApp()
 
-const LayoutNavigation = () => {
-  const { user } = useUser()
-  const isAuthorisedOrPublic = link => !link.authRequired || link.authRequired && user
-  const navLinks = links.filter(isAuthorisedOrPublic)
+  const isNavOpen = navActive ?
+    'absolute z-10 top-20 bg-white inset-x-0 bottom-0 flex flex-col' :
+    'flex items-center justify-between flex-1 hidden sm:flex'
 
   return (
-    <nav className="hidden justify-start lg:flex space-x-4 text-sm font-medium">
-      {
-        navLinks.map(link => (
-          <Link
-            key={link.to}
-            href={link.to}
-          >
-            <a className="text-gray-500 hover:text-indigo-800 px-3 py-2" {...link.attributes}>
-              {link.name}
-            </a>
-          </Link>
-        ))
-      }
-    </nav>
+    <>
+    <LayoutMenuIcon />
+
+    <div className={isNavOpen}>
+      <LayoutMenu />
+      <LayoutUserNav />
+    </div>
+    </>
   )
 }
 
-export default LayoutNavigation
+export default LayoutNav
