@@ -12,7 +12,6 @@ export const AppContextProvider = (props) => {
   }
 
   useEffect(() => {
-    console.log('effect')
     if (navActive) {
       setNavActive(!navActive)
     }
