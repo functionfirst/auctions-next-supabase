@@ -13,9 +13,10 @@ export const AuctionContextProvider = (props) => {
   const { supabase } = props
   const [auction, setAuction] = useState({})
   const [images, setImages] = useState([])
+  const [deleting, setDeleting] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [error, setError] = useState(null)
   const [dirtyAuction, setDirtyAuction] = useState({})
 
   const normaliseAuctionData = useCallback((auction) => {
@@ -27,7 +28,7 @@ export const AuctionContextProvider = (props) => {
   }, [])
 
   function fetchPublicUrl ({ id, image_url }) {
-    const { publicURL, error} = supabase.storage.from('auction-images').getPublicUrl(image_url)
+    const { publicURL, error } = supabase.storage.from('auction-images').getPublicUrl(image_url)
 
     if (error) {
       throw error
@@ -35,133 +36,160 @@ export const AuctionContextProvider = (props) => {
 
     return {
       id,
+      image_url,
       src: publicURL
     }
   }
 
   async function uploadImage (file) {
-    setUploading(true)
+    try {
+      setUploading(true)
 
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${Math.random()}.${fileExt}`
-    const image_url = `${user.id}/${auction_id}/${fileName}`
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Math.random()}.${fileExt}`
+      const image_url = `${user.id}/${auction_id}/${fileName}`
 
-    const { error: uploadError } = await supabase.storage
-      .from('auction-images')
-      .upload(image_url, file)
+      const { error: uploadError } = await supabase.storage
+        .from('auction-images')
+        .upload(image_url, file)
 
-    if (uploadError) {
-      return [null, uploadError.message]
+      if (uploadError) {
+        throw uploadError
+      }
+
+      let { error: updateError } = await supabase.from('auction_images').upsert({
+        auction_id,
+        image_url
+      })
+
+      if (updateError) {
+        throw updateError
+      }
+
+      const [data, fetchError] = await fetchAuctionImages()
+
+      if (fetchError) {
+        throw fetchError
+      }
+
+      return [data]
+    } catch (error) {
+      return [null, error.message]
+    } finally {
+      setUploading(false)
     }
-
-    let { error: updateError } = await supabase.from('auction_images').upsert({
-      auction_id,
-      image_url
-    })
-    
-    if (updateError) {
-      return [null, updateError.message]
-    }
-
-    const [data, fetchError] = await fetchAuctionImages()
-
-    if (fetchError) {
-      return [null, fetchError.message]
-    }
-
-    setUploading(false)
-
-    return [data]
   }
 
   async function deleteImages (images) {
-    const src = images.map(image => image.src)
-    const ids = images.map(image => image.id)
-
     try {
-      const { error: storageError } = await supabase
-        .storage
-        .from('auction-images')
-        .remove(src)
+      setDeleting(true)
+
+      const urls = images.map(image => image.image_url)
+      const { data: storageData, error: storageError } = await supabase.storage.from('auction-images').remove(urls)
 
       if (storageError) {
         throw storageError
       }
 
-      const { deleteError } = await supabase
-        .from('auction_images')
-        .delete()
-        .in('id', ids)
+      const ids = images.map(image => image.id)
+      const { error: deleteError } = await supabase.from('auction_images').delete().in('id', ids)
 
       if (deleteError) {
         throw deleteError
       }
 
-      fetchAuctionImages()
-    } catch (err) {
-      setError(err.message)
+      const [data, fetchError] = await fetchAuctionImages()
+
+      if (fetchError) {
+        throw fetchError
+      }
+
+      return [data]
+    } catch (error) {
+      return [null, error.message]
+    } finally {
+      setDeleting(false)
     }
   }
 
   async function fetchAuctionImages () {
-    // try {
-    const { data, error } = await supabase.from('auction_images').select('id, image_url').eq('auction_id', auction_id)
+    try {
+      setLoading(true)
 
-    if (error) {
+      const { data, error } = await supabase.from('auction_images').select('id, image_url').eq('auction_id', auction_id)
+
+      if (error) {
+        throw error.message
+      }
+
+      const sources = data.map(fetchPublicUrl)
+      setImages(sources)
+      return [data]
+    } catch (error) {
       return [null, error.message]
+    } finally {
+      setLoading(false)
     }
-
-    const sources = data.map(fetchPublicUrl)
-    setImages(sources)
-    return [data]
-    // } catch (err) {
-    //   setError(err.message)
-    // }
   }
 
   async function fetchAuction () {
-    // @todo secure this to the loggedin user
-    const { data, error: err } = await supabase.rpc('auction_by_id', { auction_id })
+    try {
+      setLoading(true)
 
-    if (err) {
-      console.log(err.message)
-    } else {
-      normaliseAuctionData(data)
+      // @todo secure this to the loggedin user
+      const { data, error } = await supabase.rpc('auction_by_id', { auction_id })
+
+      if (error) {
+        throw error
+      }
+
+      const auctions = normaliseAuctionData(data)
+
+      return [auctions]
+    } catch (error) {
+      return [null, error.message]
+    } finally {
+      setLoading(false)
     }
   }
 
   async function saveAuction() {
-    setError(null)
-    setSaving(true)
+    try {
+      setSaving(true)
 
-    const isFormDirty = Boolean(Object.values(dirtyAuction).length)
+      const isFormDirty = Boolean(Object.values(dirtyAuction).length)
 
-    if (!isFormDirty) {
-      console.log('Do not submit. Form isn\'t dirty')
-      return
-    }
+      if (!isFormDirty) {
+        throw new Error('Do not submit. Form isn\'t dirty')
+      }
 
-    const { data, error: err } = await supabase.from('auctions').update(payload).eq('id', auction_id).eq('owner_id', user.id, dirtyAuction)
+      const { data, error } = await supabase.from('auctions').update(payload).eq('id', auction_id).eq('owner_id', user.id, dirtyAuction)
 
-    if (err) {
-      console.log(err.message)
-    } else {
+      if (error) {
+        throw error
+      }
+
       setDirtyAuction({})
-    }
 
-    setSaving(false)
+      return [data]
+    } catch (error) {
+      return [null, error.message]
+    } finally {
+      setSaving(false)
+    }
   }
 
   const value = {
     auction,
     deleteImages,
-    error,
+    deleting,
     images,
     fetchAuctionImages,
     fetchAuction,
     saveAuction,
     saving,
     setAuction,
+    loading,
     uploading,
     uploadImage
   }

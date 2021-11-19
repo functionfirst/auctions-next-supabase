@@ -1,7 +1,7 @@
 import { useAuction } from '@/contexts/AuctionContext'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { IconTrash } from '@/components/Icon'
+import { IconTrash, IconSpinner } from '@/components/Icon'
 
 function ImageCard ({ src, isSelected, toggle }) {
   return (
@@ -28,14 +28,23 @@ function ImageCard ({ src, isSelected, toggle }) {
 }
 
 function AuctionImages ({ className = '' }) {
-  const { error, images, deleteImages, fetchAuctionImages } = useAuction()
+  const [error, setError] = useState(null)
+  const { images, deleting, deleteImages, fetchAuctionImages } = useAuction()
   const [selected, setSelected] = useState([])
 
   const imageSelected = imageId => selected && selected.some(item => item.id === imageId)
 
-  const remove = () => {
-    deleteImages(selected)
-    setSelected([])
+  const remove = async () => {
+    const [_data, deleteError] = await deleteImages(selected)
+
+    if (deleteError) {
+      // @todo display error message
+      console.log(deleteError.message)
+      setError(deleteError.message)
+    } else {
+      // @todo confirm deleted via snackbar
+      setSelected([])
+    }
   }
 
   const hasSelected = Object.keys(selected).length
@@ -52,14 +61,6 @@ function AuctionImages ({ className = '' }) {
     fetchAuctionImages()
   }, [])
 
-  if (error) {
-    return (
-      <p className="text-red-600 text-sm">
-        There was an error trying to load your auction images.
-      </p>
-    )
-  }
-
   return (
     <div className={`${className} grid grid-cols-4 gap-6 mb-6`}>
       <div className="col-span-4 flex items-center justify-between -mb-2">
@@ -69,14 +70,18 @@ function AuctionImages ({ className = '' }) {
           type="button"
           onClick={remove}
           className={`
-            cursor-pointer inline-flex justify-center items-center gap-1 px-3 py-2 text-sm font-medium border rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+            inline-flex justify-center items-center gap-1 px-3 py-2 text-sm font-medium border rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
             border-red-500 text-red-500 hover:text-red-800 hover:border-red-800 focus-visible:ring-red-500 
             ${hasSelected ? null : 'invisible'}
+            ${deleting ? 'pointer-events-none': 'cursor-pointer'}
           `}
-          disabled={!hasSelected}
         >
-          <IconTrash className="h-5 w-5" />
-          Delete selected
+          {
+            deleting ?
+            <IconSpinner className="h-5 w-5" /> :
+            <IconTrash className="h-5 w-5" />
+          }
+          { deleting ? 'Deleting' : 'Delete selected'}
         </button>
       </div>
 
