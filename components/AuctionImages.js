@@ -1,6 +1,6 @@
 import { useAuction } from '@/contexts/AuctionContext'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { IconTrash, IconSpinner } from '@/components/Icon'
 
 function ImageCard ({ src, isSelected, toggle }) {
@@ -57,9 +57,13 @@ function AuctionImages ({ className = '' }) {
     }
   }
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     fetchAuctionImages()
-  }, [fetchAuctionImages])
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   return (
     <div className={`${className} grid grid-cols-4 gap-6 mb-6`}>

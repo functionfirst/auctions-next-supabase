@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import BaseLabel from '@/components/BaseLabel'
 import BaseToggle from '@/components/BaseToggle'
@@ -9,25 +9,40 @@ import { useAuction } from '@/contexts/AuctionContext'
 
 function AuctionEditForm ({ className }) {
   const { auction, saving, fetchAuction, setAuction, saveAuction } = useAuction()
-
-  useEffect(() => {
-    fetchAuction()
-  }, [fetchAuction])
+  const [dirtyAuction, setDirtyAuction] = useState({})
 
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target
 
-    setAuction(prevState => ({
+    const setData = prevState => ({
       ...prevState,
       [name]: type === 'checkbox' ? checked : value
-    }))
+    })
+
+    setAuction(setData)
     setDirtyAuction(setData)
   }
 
+  const isFormDirty = Boolean(Object.values(dirtyAuction).length)
+
   async function submit(e) {
     e.preventDefault()
-    await saveAuction()
+
+    if (!isFormDirty) {
+      console.log('Do not submit. Form isn\'t dirty')
+    } else {
+      await saveAuction(dirtyAuction)
+      setDirtyAuction({})
+    }
   }
+
+  const fetchData = useCallback(() => {
+    fetchAuction()
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   return (
     <form
@@ -69,7 +84,7 @@ function AuctionEditForm ({ className }) {
           attributes={{
             id: 'description',
             name: 'description',
-            rows: 6,
+            rows: 10,
             value: auction.description,
             onChange: handleChange
           }}
@@ -194,8 +209,9 @@ function AuctionEditForm ({ className }) {
 
       <div className="flex items-center justify-end mt-6 bg-gray-50 border-t p-6">
         <LoadingButton
-          saving={saving}
+          loading={saving}
           loadingText="Saving changes.."
+          disabled={!isFormDirty}
         >
           Update Auction
         </LoadingButton>

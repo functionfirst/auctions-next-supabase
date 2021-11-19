@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { useUser } from '@/contexts/UserContext'
 import parseISO from 'date-fns/parseISO'
@@ -17,7 +17,6 @@ export const AuctionContextProvider = (props) => {
   const [uploading, setUploading] = useState(false)
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [dirtyAuction, setDirtyAuction] = useState({})
 
   const normaliseAuctionData = useCallback((auction) => {
     auction.created_at = format(parseISO(auction.created_at), "io MMM yyyy 'at' HH:mm")
@@ -153,23 +152,15 @@ export const AuctionContextProvider = (props) => {
     }
   }
 
-  async function saveAuction() {
+  async function saveAuction(formData) {
     try {
       setSaving(true)
 
-      const isFormDirty = Boolean(Object.values(dirtyAuction).length)
-
-      if (!isFormDirty) {
-        throw new Error('Do not submit. Form isn\'t dirty')
-      }
-
-      const { data, error } = await supabase.from('auctions').update(payload).eq('id', auction_id).eq('owner_id', user.id, dirtyAuction)
+      const { data, error } = await supabase.from('auctions').update(formData).eq('id', auction_id).eq('owner_id', user.id)
 
       if (error) {
         throw error
       }
-
-      setDirtyAuction({})
 
       return [data]
     } catch (error) {
@@ -197,7 +188,6 @@ export const AuctionContextProvider = (props) => {
   return (
     <AuctionContext.Provider value={value} {...props} />
   )
-
 }
 
 export const useAuction = () => {
