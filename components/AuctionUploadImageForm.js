@@ -7,7 +7,7 @@ function AuctionUploadImageForm () {
   async function upload (e) {
     e.preventDefault()
 
-    if (e.target.files.length) {
+    if (!e.target.files.length) {
       return
     }
 
