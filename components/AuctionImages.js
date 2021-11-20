@@ -15,13 +15,13 @@ function ImageCard ({ src, isSelected, toggle }) {
           />
         </label>
 
-        <div className="h-32 relative w-full">
-          <Image
-            src={src}
-            alt=""
-            layout="fill"
-          />
-        </div>
+        <Image
+          src={src}
+          alt=""
+          height="150"
+          width="150"
+          layout="intrinsic"
+        />
       </div>
     </div>
   )
@@ -93,7 +93,7 @@ function AuctionImages ({ className = '' }) {
         images.map(image =>
           <ImageCard
             key={image.id}
-            src={image.src}
+            src={image.public_url}
             isSelected={imageSelected(image.id)}
             toggle={() => toggle(image)}
           />

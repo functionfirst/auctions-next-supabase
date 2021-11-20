@@ -26,52 +26,47 @@ export const AuctionContextProvider = (props) => {
     setAuction(auction)
   }, [])
 
-  function fetchPublicUrl ({ id, image_url }) {
-    const { publicURL, error } = supabase.storage.from('auction-images').getPublicUrl(image_url)
+  async function uploadToStorage(file) {
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${Math.random()}.${fileExt}`
+    const image_url = `${user.id}/${auction_id}/${fileName}`
+
+    const { error } = await supabase.storage.from('auction-images').upload(image_url, file)
 
     if (error) {
       throw error
     }
 
-    return {
-      id,
-      image_url,
-      src: publicURL
+    return image_url
+  }
+
+  async function getPublicUrl (imageUrl) {
+    const { publicURL, error } = supabase.storage.from('auction-images').getPublicUrl(imageUrl)
+
+    if (error) {
+      throw error
     }
+    
+    return publicURL
+  }
+
+  async function saveImageToAuction (payload) {
+    const { data, error } = await supabase.from('auction_images').upsert(payload)
+
+    if (error) {
+      throw error
+    }
+
+    return data
   }
 
   async function uploadImage (file) {
     try {
       setUploading(true)
-
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
-      const image_url = `${user.id}/${auction_id}/${fileName}`
-
-      const { error: uploadError } = await supabase.storage
-        .from('auction-images')
-        .upload(image_url, file)
-
-      if (uploadError) {
-        throw uploadError
-      }
-
-      let { error: updateError } = await supabase.from('auction_images').upsert({
-        auction_id,
-        image_url
-      })
-
-      if (updateError) {
-        throw updateError
-      }
-
-      const [data, fetchError] = await fetchAuctionImages()
-
-      if (fetchError) {
-        throw fetchError
-      }
-
-      return [data]
+      const image_url = await uploadToStorage(file)
+      const public_url = await getPublicUrl(image_url)
+      await saveImageToAuction({ public_url, auction_id, image_url })
+      return await fetchAuctionImages()
     } catch (error) {
       return [null, error.message]
     } finally {
@@ -115,14 +110,13 @@ export const AuctionContextProvider = (props) => {
     try {
       setLoading(true)
 
-      const { data, error } = await supabase.from('auction_images').select('id, image_url').eq('auction_id', auction_id)
+      const { data, error } = await supabase.from('auction_images').select('id, image_url, public_url').eq('auction_id', auction_id)
 
       if (error) {
         throw error.message
       }
 
-      const sources = data.map(fetchPublicUrl)
-      setImages(sources)
+      setImages(data)
       return [data]
     } catch (error) {
       return [null, error.message]
