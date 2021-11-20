@@ -1,4 +1,22 @@
 class AuctionAPIService {
+  allowedFields = `
+    id,
+    name,
+    description,
+    start_date,
+    end_date,
+    start_amount,
+    featured,
+    enabled,
+    slug,
+    estimate_min,
+    estimate_max,
+    auction_images(
+      id,
+      image_url
+    )
+  `
+
   constructor (supabase) {
     this.supabase = supabase
     this.collection = supabase.from('auctions')
@@ -21,7 +39,7 @@ class AuctionAPIService {
   }
 
   findById (auction_id) {
-    return this.supabase.rpc('auction_by_id', { auction_id })
+    return this.collection.select(this.allowedFields).eq('id', auction_id).single()
   }
 }
 

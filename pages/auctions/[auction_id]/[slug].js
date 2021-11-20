@@ -27,7 +27,6 @@ export async function getServerSideProps ({
   res
 }) {
   const { data: auction, error, status } = await auctionAPIService.findById(params.auction_id)
-  const { data: images } = await supabase.from('auction_images').select('id, image_url').eq('auction_id', params.auction_id)
 
   if (error) {
     res.statusCode = status
@@ -39,8 +38,6 @@ export async function getServerSideProps ({
       }
     }
   }
-
-  auction.images = images
 
   return {
     props: {
