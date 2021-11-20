@@ -1,28 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { supabase } from '@/lib/initSupabase'
 
-function GalleryImage ({ imageUrl, size = 64 }) {
-  const [src, setSrc] = useState('')
-
-  useEffect(() => {
-    const fetchImage = () => {
-      const { publicURL, error} = supabase.storage.from('auction-images').getPublicUrl(imageUrl)
-
-      if (error) {
-        throw error
-      }
-
-      setSrc(publicURL)
-    }
-
-    fetchImage()
-  }, [imageUrl])
-
-  if (!src) {
-    return null
-  }
-
+function GalleryImage ({ src, size = 64 }) {
   return (
     <Image
       src={src}
@@ -45,7 +24,7 @@ function AuctionGallery ({ className = '', images }) {
             key={image.id}
             onClick={() => setPreview(image)}
           >
-            <GalleryImage imageUrl={image.image_url} />
+            <GalleryImage src={image.public_url} />
             <span className="sr-only">Display Image</span>
           </button>
         ))}
@@ -54,7 +33,7 @@ function AuctionGallery ({ className = '', images }) {
       <div className="border border-gray-50 shadow-sm">
         <GalleryImage
           size="512"
-          imageUrl={preview.image_url}
+          src={preview.public_url}
         />
       </div>
     </div>
