@@ -1,24 +1,20 @@
 import { useState } from 'react'
-import { supabase } from '@/lib/initSupabase'
 import { formatCurrency } from '@/lib/filters'
 import BaseLabel from '@/components/BaseLabel'
 import BaseInput from '@/components/BaseInput'
-import BidAPIService from '@/services/BidAPIService'
 import { useUser } from '@/contexts/UserContext'
-
-const bidAPIService = new BidAPIService(supabase)
+import { useBid } from '@/contexts/BidContext'
+import { IconPlusCircle, IconSpinner } from '@/components/Icon'
 
 function AuctionBidForm ({
-  auctionId,
   className,
   hasEnded,
-  highestBid,
   startAmount
 }) {
+  const { highestBid, saving, submitBid } = useBid()
   const { user } = useUser()
   const [error, setError] = useState(null)
   const [amount, setAmount] = useState('')
-  const [saving, setSaving] = useState(false)
   const snackbar = error ? <p className="text-red-600 mt-2" role="alert">{error}</p> : null
   const minimumBid = highestBid ? highestBid + 1 : startAmount
 
@@ -29,25 +25,18 @@ function AuctionBidForm ({
   async function submit (e) {
     e.preventDefault()
 
-    setError(null)
-    setSaving(true)
-
-    const payload = {
-      auction_id: auctionId,
+    const [_data, submitError] = await submitBid({
       user_id: user.id,
       amount
-    }
+    })
 
-    const { error: err } = await bidAPIService.addBid(payload)
-
-    if (err) {
-      setError(err.message)
+    if (submitError) {
+      setError(submitError.message)
     } else {
       // @todo add a confirmation snackbar
+      // success
       setAmount('')
     }
-
-    setSaving(false)
   }
 
   return (
@@ -76,12 +65,20 @@ function AuctionBidForm ({
             onChange: (e) => { setAmount(e.target.value) },
             placeholder: `Minimum bid amount ${formatCurrency(minimumBid)}`,
             type: 'number',
-            required: true
+            required: true,
+            disabled: saving
           }}
           className="rounded pl-9"
         />
 
-        <button className="px-6 py-2 rounded-sm shadow-md text-sm whitespace-nowrap bg-indigo-600 text-white hover:bg-indigo-700">
+        <button
+          className="flex items-center gap-2 px-6 py-2 rounded-sm shadow-md text-sm whitespace-nowrap bg-indigo-600 text-white hover:bg-indigo-700"
+          disabled={saving}
+        >
+          { saving ?
+            <IconSpinner className="h-6 w-6" /> :
+            <IconPlusCircle className="h-6 w-6" />
+          }
           Place a Bid
         </button>
       </div>

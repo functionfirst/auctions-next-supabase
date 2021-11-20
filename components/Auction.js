@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/initSupabase'
 import parseISO from 'date-fns/parseISO'
 import toDate from 'date-fns/toDate'
@@ -10,9 +9,7 @@ import AuctionEstimate from '@/components/AuctionEstimate'
 import AuctionGallery from '@/components/AuctionGallery'
 import AuctionSignin from '@/components/AuctionSignin'
 import AuctionWatch from '@/components/AuctionWatch'
-import BidAPIService from '@/services/BidAPIService'
-
-const bidAPIService = new BidAPIService(supabase)
+import { BidContextProvider } from '@/contexts/BidContext'
 
 function Auction ({
   auction
@@ -20,24 +17,12 @@ function Auction ({
   const now = toDate(new Date())
   const end = parseISO(auction.end_date)
   const hasEnded = isAfter(now, end)
-  const [highestBid, setHighestBid] = useState(auction.highest_bid || auction.start_amount)
-  const [totalBids, setTotalBids] = useState(auction.total_bids)
-
-  const updateBids = (payload) => {
-    setHighestBid(payload.new.amount)
-    setTotalBids(prevState => prevState + 1)
-  }
-
-  useEffect(() => {
-    const removeSubscription = bidAPIService.subscribeToAuctionBids(auction.id, updateBids)
-    return removeSubscription
-  }, [auction.id])
 
   return (
-    <>
+    <BidContextProvider supabase={supabase} auction_id={auction.id}>
       <div className="max-w-6xl mx-auto md:my-12 p-6">
         <div className="grid md:grid-cols-2 auto-rows-min gap-16">
-          <AuctionGallery images={auction.images} />
+          <AuctionGallery images={auction.auction_images} />
 
           <div className="grid auto-rows-min grid-cols-2 gap-6">
             <h1 className="text-2xl font-semibold text-gray-700 col-span-2">
@@ -46,11 +31,7 @@ function Auction ({
 
             <hr className="border-t border-gray-200 col-span-2" />
 
-            <AuctionCurrentBid
-              totalBids={totalBids}
-              highestBid={highestBid}
-              startAmount={auction.start_amount}
-            />
+            <AuctionCurrentBid startAmount={auction.start_amount} />
 
             <AuctionEstimate
               estimateMin={auction.estimate_min}
@@ -66,9 +47,7 @@ function Auction ({
             <AuctionSignin className="col-span-2" />
 
             <AuctionBidForm
-              auctionId={auction.id}
               hasEnded={hasEnded}
-              highestBid={highestBid}
               startAmount={auction.start_amount}
               className="col-span-2"
             />
@@ -93,7 +72,7 @@ function Auction ({
           </div>
         </div>
       </div>
-    </>
+    </BidContextProvider>
   )
 }
 
