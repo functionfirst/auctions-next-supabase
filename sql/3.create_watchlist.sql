@@ -9,6 +9,12 @@ create table watchlist (
 -- Set row level security
 alter table bids enable row level security;
 
+create policy "Users can select their watches."
+  on watchlist
+  for select using (
+    (auth.uid() = user_id)
+  );
+
 create policy "Users can create a watch."
   on watchlist
   for insert with check (
