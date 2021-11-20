@@ -3,7 +3,6 @@ import ErrorPage from 'next/error'
 import Head from 'next/head'
 import AuctionAPIService from '@/services/AuctionAPIService'
 import Auction from '@/components/Auction'
-import { getPublicUrl } from '@/lib/auctionImages'
 
 const auctionAPIService = new AuctionAPIService(supabase)
 
@@ -39,11 +38,6 @@ export async function getServerSideProps ({
       }
     }
   }
-
-  auction.auction_images = auction.auction_images.map(image => {
-    image.public_url = getPublicUrl(image.image_url)
-    return image
-  })
 
   return {
     props: {

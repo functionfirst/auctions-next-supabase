@@ -93,7 +93,7 @@ function AuctionImages ({ className = '' }) {
         images.map(image =>
           <ImageCard
             key={image.id}
-            src={image.src}
+            src={image.public_url}
             isSelected={imageSelected(image.id)}
             toggle={() => toggle(image)}
           />

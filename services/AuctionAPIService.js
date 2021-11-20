@@ -13,7 +13,8 @@ class AuctionAPIService {
     estimate_max,
     auction_images(
       id,
-      image_url
+      image_url,
+      public_url
     )
   `
 
@@ -23,7 +24,7 @@ class AuctionAPIService {
   }
 
   discover () {
-    return this.collection.select('id, name, slug, auction_images(image_url)').limit(10)
+    return this.collection.select('id, name, slug, auction_images(public_url)').limit(10)
   }
 
   myAuctions (user_id) {

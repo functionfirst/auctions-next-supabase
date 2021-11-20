@@ -7,16 +7,16 @@ function AuctionUploadImageForm () {
   async function upload (e) {
     e.preventDefault()
 
-    if (!e.target.files || e.target.files.length == 0) {
-      throw 'You must select an image to upload.'
+    if (e.target.files.length) {
+      return
     }
 
-    const file = e.target.files[0]
+    const [file] = e.target.files
     const [data, error] = await uploadImage(file)
 
     if (error) {
       // @todo add error alert
-      console.log('error')
+      console.log(error)
     } else {
       // @todo add snackbar alert
       console.log('success', data)
@@ -26,6 +26,8 @@ function AuctionUploadImageForm () {
   return (
     <UploadButton
       onUpload={upload}
+      accept="image/jpeg, image/png"
+      acceptString="PNG, JPG up to 10MB"
       loading={uploading}
     />
   )

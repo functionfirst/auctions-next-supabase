@@ -1,18 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
-function GalleryImage ({ src, size = 64 }) {
-  return (
-    <Image
-      src={src}
-      alt=''
-      width={size}
-      height={size}
-      layout="intrinsic"
-    />
-  )
-}
-
 function AuctionGallery ({ className = '', images }) {
   const [preview, setPreview] = useState(images[0])
 
@@ -24,16 +12,27 @@ function AuctionGallery ({ className = '', images }) {
             key={image.id}
             onClick={() => setPreview(image)}
           >
-            <GalleryImage src={image.public_url} />
+            <Image
+              src={image.public_url}
+              alt=''
+              width="64"
+              height="64"
+              layout="intrinsic"
+            />
+
             <span className="sr-only">Display Image</span>
           </button>
         ))}
       </div>
 
       <div className="border border-gray-50 shadow-sm">
-        <GalleryImage
-          size="512"
+        <Image
           src={preview.public_url}
+          alt=''
+          width="512"
+          height="512"
+          layout="intrinsic"
+          priority
         />
       </div>
     </div>
