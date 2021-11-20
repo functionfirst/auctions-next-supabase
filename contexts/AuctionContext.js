@@ -9,7 +9,7 @@ const AuctionContext = createContext({ user: null, session: null })
 export const AuctionContextProvider = (props) => {
   const router = useRouter()
   const { user } = useUser()
-  const auction_id = router.query.id
+  const { auction_id } = router.query
   const { supabase } = props
   const [auction, setAuction] = useState({})
   const [images, setImages] = useState([])

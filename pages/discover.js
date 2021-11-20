@@ -9,10 +9,6 @@ const auctionAPIService = new AuctionAPIService(supabase)
 function Discover ({ auctions }) {
   const router = useRouter()
 
-  if (router.isFallback) {
-    return <div>Loading...</div>
-  }
-
   return (
     <>
       <Head>
@@ -30,8 +26,21 @@ function Discover ({ auctions }) {
   )
 }
 
-export async function getStaticProps () {
-  const { error, data: auctions } = await auctionAPIService.discover()
+export async function getServerSideProps ({
+  res
+}) {
+  const { error, data: auctions, status } = await auctionAPIService.discover()
+
+  if (error) {
+    res.statusCode = 400
+
+    return {
+      props: {
+        error: error.message,
+        status
+      }
+    }
+  }
 
   return {
     props: {

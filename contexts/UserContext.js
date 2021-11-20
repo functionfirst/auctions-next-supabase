@@ -81,6 +81,7 @@ export const UserContextProvider = (props) => {
   const value = {
     session,
     user,
+    user_id: user?.id,
     resetPassword,
     signup,
     signin,
