@@ -85,7 +85,6 @@ export const IconMenu = ({ className }) => (
     />
   </Icon>
 )
-
 export const IconNotification = ({ className }) => (
   <Icon className={className}>
     <path
@@ -93,6 +92,17 @@ export const IconNotification = ({ className }) => (
       strokeLinejoin="round"
       strokeWidth="2"
       d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+    />
+  </Icon>
+)
+
+export const IconPlusCircle = ({ className }) => (
+  <Icon className={className}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
     />
   </Icon>
 )
