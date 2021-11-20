@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="theme-color" content="#ffffff" />
       </Head>
 
-      <AppContextProvider >
+      <AppContextProvider>
         <UserContextProvider supabase={supabase}>
           <Layout {...pageProps}>
             {app}
