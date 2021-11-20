@@ -17,8 +17,6 @@ export const WatchContextProvider = (props) => {
       user_id
     })
 
-    console.log('toggling', { data })
-
     if (toggleError) {
       setError(toggleError.message)
     } else {
@@ -37,8 +35,6 @@ export const WatchContextProvider = (props) => {
       auction_id,
       user_id
     })
-
-    console.log('fetching', { data })
 
     if (fetchError) {
       setError(fetchError.message)
