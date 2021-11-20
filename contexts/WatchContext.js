@@ -29,7 +29,10 @@ export const WatchContextProvider = (props) => {
   }
 
   const fetchData = useCallback(async () => {
+    if (!user_id) { return }
+
     setLoading(true)
+
     const { data, error: fetchError } = await supabase.rpc('watchlist_by_user_id', {
       auction_id,
       user_id
