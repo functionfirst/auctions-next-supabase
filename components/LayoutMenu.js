@@ -12,7 +12,8 @@ const links = [
   },
   {
     to: "/favourites",
-    name: "Favourites"
+    name: "Favourites",
+    authRequired: true
   },
   {
     to: "/my-auctions",

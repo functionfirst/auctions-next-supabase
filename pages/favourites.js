@@ -48,4 +48,6 @@ function Favourites() {
   )
 }
 
+Favourites.authRequired = true
+
 export default Favourites
