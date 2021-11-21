@@ -26,3 +26,7 @@ create policy "Users can delete their own watch."
   for delete using (
     auth.uid() = user_id
   );
+
+-- Enable replication for realtime
+-- Requires full as we want to listen for deletes too
+alter table watchlist replica identity full;
