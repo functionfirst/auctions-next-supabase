@@ -19,3 +19,7 @@ create policy "Individuals can create bids." on bids for
 
 create policy "Bids are public." on bids for
     select using (true);
+
+-- Enable replication for realtime
+alter publication supabase_realtime add table bids;
+
