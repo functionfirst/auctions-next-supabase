@@ -19,9 +19,9 @@ function AuctionCard({ className, auction }) {
           layout="intrinsic"
         />
 
-        <h3 className="text-lg font-medium overflow-ellipsis overflow-hidden truncate">
+        <h2 className="text-lg font-medium overflow-ellipsis overflow-hidden truncate">
           {auction.name}
-        </h3>
+        </h2>
       </a>
     </Link>
   )
