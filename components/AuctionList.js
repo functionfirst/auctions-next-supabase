@@ -8,7 +8,7 @@ function AuctionList({ auctions }) {
           <AuctionCard
             key={auction.id.toString()}
             auction={auction}
-            className="w-1/4"
+            className="text-center sm:text-left sm:w-1/4"
           />
         ))
       }
