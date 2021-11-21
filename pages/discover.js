@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { supabase } from '@/lib/initSupabase'
 import Head from 'next/head'
 import AuctionList from '../components/AuctionList'
@@ -7,8 +6,6 @@ import AuctionAPIService from '@/services/AuctionAPIService'
 const auctionAPIService = new AuctionAPIService(supabase)
 
 function Discover ({ auctions }) {
-  const router = useRouter()
-
   return (
     <>
       <Head>
