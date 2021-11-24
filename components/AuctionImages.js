@@ -22,7 +22,7 @@ function ImageCard ({ src, isSelected, toggle }) {
           width="150"
           layout="intrinsic"
           placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNMqwcAAVEA58giG6IAAAAASUVORK5CYII="
+          blurDataURL={BlurData}
         />
       </div>
     </div>

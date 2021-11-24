@@ -20,7 +20,7 @@ function AuctionGallery ({ className = '', images }) {
               layout="intrinsic"
               quality="10"
               placeholder="blur"
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNMqwcAAVEA58giG6IAAAAASUVORK5CYII="
+              blurDataURL={BlurData}
               priority
             />
 
@@ -38,7 +38,7 @@ function AuctionGallery ({ className = '', images }) {
           layout="intrinsic"
           quality="10"
           placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNMqwcAAVEA58giG6IAAAAASUVORK5CYII="
+          blurDataURL={BlurData}
           priority
         />
       </div>

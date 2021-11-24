@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { BlurData } from '@/components/BlurImage'
 
 function AuctionCard({ className, auction }) {
   const imageUrl = auction.auction_images.length ? auction.auction_images[0].public_url : null
@@ -18,7 +19,7 @@ function AuctionCard({ className, auction }) {
           height="250"
           layout="intrinsic"
           placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNMqwcAAVEA58giG6IAAAAASUVORK5CYII="
+          blurDataURL={BlurData}
           priority
         />
 
