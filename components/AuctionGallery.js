@@ -18,6 +18,10 @@ function AuctionGallery ({ className = '', images }) {
               width="64"
               height="64"
               layout="intrinsic"
+              quality="10"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNMqwcAAVEA58giG6IAAAAASUVORK5CYII="
+              priority
             />
 
             <span className="sr-only">Display Image</span>
@@ -32,6 +36,9 @@ function AuctionGallery ({ className = '', images }) {
           width="512"
           height="512"
           layout="intrinsic"
+          quality="10"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNMqwcAAVEA58giG6IAAAAASUVORK5CYII="
           priority
         />
       </div>

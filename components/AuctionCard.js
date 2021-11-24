@@ -17,6 +17,9 @@ function AuctionCard({ className, auction }) {
           width="250"
           height="250"
           layout="intrinsic"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNMqwcAAVEA58giG6IAAAAASUVORK5CYII="
+          priority
         />
 
         <h2 className="text-lg font-medium overflow-ellipsis overflow-hidden truncate">
