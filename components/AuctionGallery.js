@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
+import { BlurData } from '@/components/BlurImage'
 
 function AuctionGallery ({ className = '', images }) {
   const [preview, setPreview] = useState(images[0])
@@ -18,6 +19,10 @@ function AuctionGallery ({ className = '', images }) {
               width="64"
               height="64"
               layout="intrinsic"
+              quality="10"
+              placeholder="blur"
+              blurDataURL={BlurData}
+              priority
             />
 
             <span className="sr-only">Display Image</span>
@@ -32,6 +37,9 @@ function AuctionGallery ({ className = '', images }) {
           width="512"
           height="512"
           layout="intrinsic"
+          quality="10"
+          placeholder="blur"
+          blurDataURL={BlurData}
           priority
         />
       </div>
