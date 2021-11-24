@@ -2,6 +2,7 @@ import { useAuction } from '@/contexts/AuctionContext'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { IconTrash, IconSpinner } from '@/components/Icon'
+import { BlurData } from '@/components/BlurImage'
 
 function ImageCard ({ src, isSelected, toggle }) {
   return (

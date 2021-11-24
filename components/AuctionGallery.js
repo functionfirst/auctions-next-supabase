@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
+import { BlurData } from '@/components/BlurImage'
 
 function AuctionGallery ({ className = '', images }) {
   const [preview, setPreview] = useState(images[0])
