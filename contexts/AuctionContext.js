@@ -11,7 +11,17 @@ export const AuctionContextProvider = (props) => {
   const { user } = useUser()
   const { auction_id } = router.query
   const { supabase } = props
-  const [auction, setAuction] = useState({})
+  const [auction, setAuction] = useState({
+    name: '',
+    description: '',
+    start_date: '',
+    end_date: '',
+    start_amount: '',
+    estimate_min: '',
+    estimate_max: '',
+    enabled: false,
+    featured: false
+  })
   const [images, setImages] = useState([])
   const [deleting, setDeleting] = useState(false)
   const [uploading, setUploading] = useState(false)
