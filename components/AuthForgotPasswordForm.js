@@ -49,15 +49,11 @@ function AuthForgotPasswordForm () {
       </BaseLabel>
 
       <BaseInput
-        attributes={
-          {
-            id: 'resetEmail',
-            type: 'email',
-            onChange: (e) => setEmail(e.target.value),
-            placeholder: 'your@email.com',
-            required: true
-          }
-        }
+        id="resetEmail"
+        type="email"
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="your@email.com"
+        required
       />
 
       {errorMessage}

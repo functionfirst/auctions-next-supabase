@@ -67,11 +67,9 @@ export default function AccountProfile() {
         </BaseLabel>
 
         <BaseInput
-          attributes={{
-            id: 'name',
-            value: name,
-            onChange: (e) => setName(e.target.value)
-          }}
+          id='name'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         
         <div className="text-center mt-6">

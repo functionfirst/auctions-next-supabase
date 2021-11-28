@@ -72,16 +72,12 @@ function AuthLoginForm () {
       </BaseLabel>
 
       <BaseInput
-        attributes={
-          {
-            id: "loginEmail",
-            name: 'email',
-            value: credentials.email,
-            onChange: handleChange,
-            placeholder: "your@email.com",
-            required: true
-          }
-        }
+        id="loginEmail"
+        name="email"
+        value={credentials.email}
+        onChange={handleChange}
+        placeholder="your@email.com"
+        required
       />
 
       <div className="flex mb-2 items-center mt-6">
@@ -100,17 +96,13 @@ function AuthLoginForm () {
       </div>
 
       <BaseInput
-        attributes={
-          {
-            id: 'loginPassword',
-            type: 'password',
-            name: 'password',
-            value: credentials.password,
-            onChange: handleChange,
-            placeholder: '******************',
-            required: true
-          }
-        }
+        id="loginPassword"
+        type="password"
+        name="password"
+        value={credentials.password}
+        onChange={handleChange}
+        placeholder='******************'
+        required
       />
 
       {errorMessage}
