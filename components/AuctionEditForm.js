@@ -5,7 +5,9 @@ import BaseToggle from '@/components/BaseToggle'
 import BaseInput from '@/components/BaseInput'
 import BaseTextarea from '@/components/BaseTextarea'
 import LoadingButton from '@/components/LoadingButton'
+import Saving from '@/components/Saving'
 import { useAuction } from '@/contexts/AuctionContext'
+import { IconSpinner } from './Icon'
 
 function AuctionEditForm ({ className }) {
   const { auction, saving, fetchAuction, setAuction, saveAuction } = useAuction()
@@ -185,6 +187,8 @@ function AuctionEditForm ({ className }) {
         />
        
       </div>
+
+      <Saving saving={saving} />
 
       <div className="flex items-center justify-end mt-6 bg-gray-50 border-t p-6">
         <LoadingButton
