@@ -63,17 +63,13 @@ function AuthRegisterForm () {
       </BaseLabel>
 
       <BaseInput
-        attributes={
-          {
-            id: 'loginEmail',
-            name: 'email',
-            placeholder: 'your@email.com',
-            type: 'email',
-            value: credentials.email,
-            onChange: handleChange,
-            required: true
-          }
-        }
+        id="loginEmail"
+        name="email"
+        placeholder="your@email.com"
+        type="email"
+        value={credentials.email}
+        onChange={handleChange}
+        required
       />
 
       <BaseLabel
@@ -84,17 +80,13 @@ function AuthRegisterForm () {
       </BaseLabel>
 
       <BaseInput
-        attributes={
-          {
-            id: 'loginPassword',
-            name: 'password',
-            type: 'password',
-            value: credentials.password,
-            placeholder: '******************',
-            onChange: handleChange,
-            required: true
-          }
-        }
+        id="loginPassword"
+        name="password"
+        type="password"
+        value={credentials.password}
+        placeholder='******************'
+        onChange={handleChange}
+        required
       />
 
       <BaseLabel
@@ -105,17 +97,13 @@ function AuthRegisterForm () {
       </BaseLabel>
 
       <BaseInput
-        attributes={
-          {
-            id: 'loginConfirmPassword',
-            name: 'confirmPassword',
-            type: 'password',
-            value: credentials.confirmPassword,
-            placeholder: '******************',
-            onChange: handleChange,
-            required: true
-          }
-        }
+        id="loginConfirmPassword"
+        name="confirmPassword"
+        type="password"
+        value={credentials.confirmPassword}
+        placeholder='******************'
+        onChange={handleChange}
+        required
       />
 
       {errorMessage}

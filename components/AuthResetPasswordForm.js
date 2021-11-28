@@ -56,15 +56,11 @@ function AuthResetPasswordForm () {
       </BaseLabel>
 
       <BaseInput
-        attributes={
-          {
-            id: 'newPassword',
-            type: 'password',
-            value: password,
-            onChange: (e) => setPassword(e.target.value),
-            required: true
-          }
-        }
+        id="newPassword"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
       />
 
       {errorMessage}

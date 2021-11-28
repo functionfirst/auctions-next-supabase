@@ -6,9 +6,9 @@ function BaseButtonRound({
   type = 'submit'
 }) {
   const css = [
-    color === 'primary' && !disabled ? 'bg-indigo-500 hover:bg-indigo-700 text-white' : null,
-    color === 'secondary' && !disabled ? 'bg-gray-300 hover:bg-gray-500' : null,
-    disabled ? 'cursor-not-allowed pointer-events-none bg-gray-300 text-gray-600' : null,
+    color === 'primary' && !disabled ? 'bg-indigo-600 hover:bg-indigo-800 text-white' : '',
+    color === 'secondary' && !disabled ? 'bg-gray-300 hover:bg-gray-200' : '',
+    disabled ? 'cursor-not-allowed pointer-events-none bg-gray-300 text-gray-600' : '',
     className,
     'px-10 py-4 rounded-full uppercase tracking-wider font-semibold text-xs'
   ]

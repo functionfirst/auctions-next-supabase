@@ -57,17 +57,15 @@ function AuctionBidForm ({
         </label>
 
         <BaseInput
-          attributes={{
-            id: 'amount',
-            value: amount,
-            name: 'amount',
-            min: minimumBid,
-            onChange: (e) => { setAmount(e.target.value) },
-            placeholder: `Minimum bid amount ${formatCurrency(minimumBid)}`,
-            type: 'number',
-            required: true,
-            disabled: saving
-          }}
+          id="amount"
+          value={amount}
+          name="amount"
+          min={minimumBid}
+          onChange={(e) => { setAmount(e.target.value) }}
+          placeholder={`Minimum bid amount ${formatCurrency(minimumBid)}`}
+          type="number"
+          required
+          disabled={saving}
           className="rounded pl-9"
         />
 

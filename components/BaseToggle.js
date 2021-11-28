@@ -1,32 +1,40 @@
-function BaseInput ({ attributes, className = '', children }) {
+function BaseToggle ({
+  label,
+  checked,
+  onChange,
+  className = '',
+  ...inputProps
+}) {
   const toggle = ['w-14 rounded-full shadow-sm p-0.5']
-  const switcher = ['block h-6 w-6 rounded-full bg-white shadow-sm transform ring-0 ring-0 transition ease-in-out duration-200']
+  const switcher = ['block h-6 w-6 rounded-full bg-white shadow-sm transform transition ease-in-out duration-200']
 
-  if (attributes.checked) {
+  if (checked) {
     toggle.push('bg-indigo-600')
     switcher.push('translate-x-7')
   } else {
-    toggle.push('bg-gray-600')
+    toggle.push('bg-gray-400')
     switcher.push('translate-x-0')
   }
 
   return (
     <label
-      htmlFor={attributes.id}
-      className={`${className} flex gap-2 cursor-pointer`}
+      htmlFor={inputProps.id}
+      className={`${className} inline-flex items-center gap-2 cursor-pointer`}
     >
       <div className={toggle.join(' ')}>
         <span className={switcher.join(' ')}/>
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={onChange}
+          className="absolute opacity-0 h-0 w-0 overflow-hidden appearance-none m-0"
+          {...inputProps}
+        />
       </div>
 
-      <input
-        type='checkbox'
-        className="hidden"
-        {...attributes}
-      />
-      {children}
+      {label}
     </label>
   )
 }
 
-export default BaseInput
+export default BaseToggle

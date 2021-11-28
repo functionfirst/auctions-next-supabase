@@ -11,16 +11,21 @@ function LoadingButton ({
 
   const spinner = loading ? <IconSpinner className="h-4 w-4 absolute right-6" /> : null
 
+  const buttonCss = ['inline-flex items-center relative']
+  const loaderCss = ['transform transition-transform duration-300 ease-in-out']
+
+  if (loading) {
+    buttonCss.push('pl-16')
+    loaderCss.push('-translate-x-6')
+  }
+
   return (
     <BaseButtonRound
       color="primary"
-      className={`
-        inline-flex items-center relative
-        ${loading ? 'pl-16' : null }
-      `}
+      className={buttonCss.join(' ')}
       disabled={loading||disabled}
     >
-      <span className={`transform transition-transform duration-300 ease-in-out ${loading ? '-translate-x-6' : null }`}>
+      <span className={loaderCss.join(' ')}>
         {loader}
       </span>
 
