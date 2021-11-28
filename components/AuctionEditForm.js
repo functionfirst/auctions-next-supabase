@@ -3,7 +3,7 @@ import Link from 'next/link'
 import BaseLabel from '@/components/BaseLabel'
 import BaseToggle from '@/components/BaseToggle'
 import BaseInput from '@/components/BaseInput'
-import BaseText from '@/components/BaseText'
+import BaseTextarea from '@/components/BaseTextarea'
 import LoadingButton from '@/components/LoadingButton'
 import { useAuction } from '@/contexts/AuctionContext'
 
@@ -28,9 +28,7 @@ function AuctionEditForm ({ className }) {
   async function submit(e) {
     e.preventDefault()
 
-    if (!isFormDirty) {
-      console.log('Do not submit. Form isn\'t dirty')
-    } else {
+    if (isFormDirty) {
       await saveAuction(dirtyAuction)
       setDirtyAuction({})
     }
@@ -55,13 +53,11 @@ function AuctionEditForm ({ className }) {
         </BaseLabel>
 
         <BaseInput
-          attributes={{
-            id: 'name',
-            name: 'name',
-            value: auction.name,
-            onChange: handleChange,
-            required: true
-          }}
+          value={auction.name}
+          onChange={handleChange}
+          id="name"
+          name="name"
+          required
         />
 
         <p className="text-sm mt-1">
@@ -80,14 +76,12 @@ function AuctionEditForm ({ className }) {
           Description
         </BaseLabel>
 
-        <BaseText
-          attributes={{
-            id: 'description',
-            name: 'description',
-            rows: 10,
-            value: auction.description,
-            onChange: handleChange
-          }}
+        <BaseTextarea
+          value={auction.description}
+          onChange={handleChange}
+          id="description"
+          name="description"
+          rows="10"
         />
       </div>
 
@@ -98,13 +92,11 @@ function AuctionEditForm ({ className }) {
           </BaseLabel>
 
           <BaseInput
-            attributes={{
-              id: 'start_date',
-              name: 'start_date',
-              value: auction.start_date,
-              onChange: handleChange,
-              type: 'datetime-local'
-            }}
+            id="start_date"
+            name="start_date"
+            value={auction.start_date}
+            onChange={handleChange}
+            type="datetime-local"
           />
         </div>
 
@@ -114,13 +106,11 @@ function AuctionEditForm ({ className }) {
           </BaseLabel>
 
           <BaseInput
-            attributes={{
-              id: 'end_date',
-              name: 'end_date',
-              value: auction.end_date,
-              onChange: handleChange,
-              type: 'datetime-local'
-            }}
+            id="end_date"
+            name="end_date"
+            value={auction.end_date}
+            onChange={handleChange}
+            type="datetime-local"
           />
         </div>
       </div>
@@ -131,15 +121,13 @@ function AuctionEditForm ({ className }) {
         </BaseLabel>
 
         <BaseInput
-          attributes={{
-            id: 'start_amount',
-            name: 'start_amount',
-            value: auction.start_amount,
-            onChange: handleChange,
-            min: 0,
-            type: 'number',
-            required: true
-          }}
+          id="start_amount"
+          name="start_amount"
+          value={auction.start_amount}
+          onChange={handleChange}
+          min="0"
+          type="number"
+          required
         />
       </div>
 
@@ -150,15 +138,13 @@ function AuctionEditForm ({ className }) {
           </BaseLabel>
 
           <BaseInput
-            attributes={{
-              id: 'estimate_min',
-              name: 'estimate_min',
-              value: auction.estimate_min,
-              onChange: handleChange,
-              min: 0,
-              type: 'number',
-              required: true
-            }}
+            id="estimate_min"
+            name="estimate_min"
+            value={auction.estimate_min}
+            onChange={handleChange}
+            min="0"
+            type="number"
+            required
           />
         </div>
 
@@ -168,43 +154,36 @@ function AuctionEditForm ({ className }) {
           </BaseLabel>
 
           <BaseInput
-            attributes={{
-              id: 'estimate_max',
-              name: 'estimate_max',
-              value: auction.estimate_max,
-              onChange: handleChange,
-              min: 0,
-              type: 'number',
-              required: true
-            }}
+            id="estimate_max"
+            name="estimate_max"
+            value={auction.estimate_max}
+            onChange={handleChange}
+            min="0"
+            type="number'"
+            required
           />
         </div>
       </div>
 
       <div className="m-4">
         <BaseToggle
-          attributes={{
-            id: 'enabled',
-            name: 'enabled',
-            checked: auction.enabled,
-            onChange: handleChange
-          }}
-        >
-          Allow users to find this auction
-        </BaseToggle>
+          id="enabled"
+          name="enabled"
+          label="Allow users to find this auction"
+          checked={auction.enabled}
+          onChange={handleChange}
+        />
       </div>
 
       <div className="m-4">
         <BaseToggle
-          attributes={{
-            id: 'featured',
-            name: 'featured',
-            checked: auction.featured,
-            onChange: handleChange
-          }}
-        >
-          Display as a featured auction
-        </BaseToggle>
+          id="featured"
+          name="featured"
+          label="Display as a featured auction"
+          checked={auction.featured}
+          onChange={handleChange}
+        />
+       
       </div>
 
       <div className="flex items-center justify-end mt-6 bg-gray-50 border-t p-6">
