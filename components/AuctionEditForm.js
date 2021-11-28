@@ -7,7 +7,6 @@ import BaseTextarea from '@/components/BaseTextarea'
 import LoadingButton from '@/components/LoadingButton'
 import Saving from '@/components/Saving'
 import { useAuction } from '@/contexts/AuctionContext'
-import { IconSpinner } from './Icon'
 
 function AuctionEditForm ({ className }) {
   const { auction, saving, fetchAuction, setAuction, saveAuction } = useAuction()
