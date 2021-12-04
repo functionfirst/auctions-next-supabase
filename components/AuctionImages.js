@@ -65,7 +65,7 @@ function AuctionImages({ className = '' }) {
 
   const fetchData = useCallback(() => {
     fetchAuctionImages()
-  }, [fetchAuctionImages])
+  }, [])
 
   useEffect(() => {
     fetchData()
