@@ -4,8 +4,9 @@ import AuctionImages from '@/components/AuctionImages'
 import AuctionHead from '@/components/AuctionHead'
 import AuctionEditForm from '@/components/AuctionEditForm'
 import AuctionUploadImageForm from '@/components/AuctionUploadImageForm'
+import AuctionDelete from '@/components/AuctionDelete'
 
-function EditAuction () {
+function EditAuction() {
   return (
     <AuctionContextProvider supabase={supabase}>
       <AuctionHead />
@@ -17,9 +18,13 @@ function EditAuction () {
           </h1>
 
           <div className="col-span-1">
-            <h3 className="text-gray-700 font-medium text-lg">Auction Details</h3>
+            <h3 className="text-gray-700 font-medium text-lg">
+              Auction Details
+            </h3>
 
-            <p className="text-sm text-gray-500">Manage the main properties of your auction</p>
+            <p className="text-sm text-gray-500">
+              Manage the main properties of your auction
+            </p>
           </div>
 
           <AuctionEditForm className="rounded-sm bg-white shadow-sm col-span-2" />
@@ -27,9 +32,13 @@ function EditAuction () {
           <hr className="border-t border-gray-200 col-span-3" />
 
           <div className="col-span-1">
-            <h3 className="text-gray-700 font-medium text-lg">Auction Images</h3>
+            <h3 className="text-gray-700 font-medium text-lg">
+              Auction Images
+            </h3>
 
-            <p className="text-sm text-gray-500">Manage images for your auction</p>
+            <p className="text-sm text-gray-500">
+              Manage images for your auction
+            </p>
           </div>
 
           <div className="bg-white p-6 rounded-sm shadow-sm col-span-2">
@@ -37,6 +46,19 @@ function EditAuction () {
 
             <AuctionUploadImageForm />
           </div>
+
+          <div className="col-span-1">
+            <h3 className="text-gray-700 font-medium text-lg">
+              Delete Auction
+            </h3>
+
+            <p className="text-sm text-gray-700">
+              Once you delete this auction, there is no going back. Please be
+              certain.
+            </p>
+          </div>
+
+          <AuctionDelete className="rounded-sm bg-white shadow col-span-2" />
         </div>
       </div>
     </AuctionContextProvider>

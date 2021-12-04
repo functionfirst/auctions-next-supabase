@@ -1,7 +1,7 @@
-import { formatCurrency } from "@/lib/filters"
+import { formatCurrency } from '@/lib/filters'
 import { useBid } from '@/contexts/BidContext'
 
-function bidText (totalBids) {
+function bidText(totalBids) {
   if (totalBids === 1) {
     return '1 bid'
   } else if (totalBids) {
@@ -11,8 +11,8 @@ function bidText (totalBids) {
   return 'No bids'
 }
 
-function AuctionCurrentBid ({ startAmount }) {
-  const { loading, highestBid, totalBids } = useBid()
+function AuctionCurrentBid({ startAmount }) {
+  const { highestBid, totalBids } = useBid()
   const label = totalBids ? 'Current Bid' : 'Starting Bid'
   const text = bidText(totalBids)
 
@@ -29,7 +29,7 @@ function AuctionCurrentBid ({ startAmount }) {
         {formatCurrency(highestBid || startAmount)}
       </dd>
     </dl>
-  )  
+  )
 }
 
 export default AuctionCurrentBid

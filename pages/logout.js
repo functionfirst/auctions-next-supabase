@@ -5,14 +5,14 @@ import { useUser } from '@/contexts/UserContext'
 function Logout() {
   const { signout } = useUser()
   const router = useRouter()
-  const [error, setError] = useState(null)
+  const [_error, setError] = useState(null)
 
   useEffect(() => {
     const logout = async () => {
       const [_data, signoutError] = await signout()
-  
+
       if (signoutError) {
-        setError(signoutError)
+        setError(signoutError.message)
       } else {
         // @todo trigger a success toast message
         router.push('/')

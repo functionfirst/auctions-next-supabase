@@ -1,17 +1,18 @@
 import AuctionCard from '../components/AuctionCard'
 
 function AuctionList({ auctions }) {
+  const cards = auctions.map(
+    auction => (
+      <AuctionCard
+        key={auction.id.toString()}
+        auction={auction}
+      />
+    )
+  )
+
   return (
-    <div className="grid gap-6">
-      {
-        auctions.map(auction => (
-          <AuctionCard
-            key={auction.id.toString()}
-            auction={auction}
-            className="text-center sm:text-left sm:w-1/4"
-          />
-        ))
-      }
+    <div className="grid gap-6 sm:grid-cols-4">
+      {cards}
     </div>
   )
 }

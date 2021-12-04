@@ -8,11 +8,9 @@ function ChangePassword() {
         <title>Change Password - Realtime Auctions</title>
       </Head>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h1 className="font-semibold text-2xl mb-6 tracking-tight">
-          Change Password
-        </h1>
-      </div>
+      <h1 className="font-semibold text-2xl mb-6 tracking-tight">
+        Change Password
+      </h1>
     </>
   )
 }

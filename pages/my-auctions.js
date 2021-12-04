@@ -2,22 +2,22 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/initSupabase'
-import AuctionAPIService from '@/services/AuctionAPIService'
 import { useUser } from '@/contexts/UserContext'
+import Pill from '@/components/Pill'
 
-const auctionAPIService = new AuctionAPIService(supabase)
-
-function MyAuctions() {
+export default function MyAuctions() {
   const [auctions, setAuctions] = useState([])
   const { user } = useUser()
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await auctionAPIService.myAuctions(user.id)
+      const { data, error } = await supabase
+        .from('auctions')
+        .select('id, name, description, enabled')
+        .eq('owner_id', user.id)
+        .order('name')
 
-      if (error) {
-
-      } else {
+      if (!error) {
         setAuctions(data)
       }
     }
@@ -33,9 +33,7 @@ function MyAuctions() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="font-semibold text-2xl mb-4">
-            My Auctions
-          </h1>
+          <h1 className="font-semibold text-2xl mb-4">My Auctions</h1>
 
           <Link href="/auctions/create">
             <a className="px-6 py-3 rounded-full uppercase tracking-wider font-semibold text-xs bg-indigo-500 hover:bg-indigo-700 text-white">
@@ -75,9 +73,7 @@ function MyAuctions() {
                         </Link>
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <span className="px-2 inline-block text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          {auction.enabled ? 'Active' : 'Inactive' }
-                        </span>
+                        <Pill active={auction.enabled} />
                       </td>
                     </tr>
                   ))}
@@ -92,5 +88,3 @@ function MyAuctions() {
 }
 
 MyAuctions.authRequired = true
-
-export default MyAuctions

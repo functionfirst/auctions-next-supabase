@@ -2,7 +2,7 @@ import { useUser } from '@/contexts/UserContext'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-function AuthRequired ({ children }) {
+function AuthRequired({ children }) {
   const { user } = useUser()
   const router = useRouter()
 
@@ -13,11 +13,7 @@ function AuthRequired ({ children }) {
   }, [router, user])
 
   if (user) {
-    return (
-      <>
-        {children}
-      </>
-    )
+    return <>{children}</>
   }
 
   return null
