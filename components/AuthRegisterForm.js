@@ -6,7 +6,7 @@ import BaseLabel from '../components/BaseLabel'
 import BaseInput from '../components/BaseInput'
 import LoadingButton from '../components/LoadingButton'
 
-function AuthRegisterForm () {
+function AuthRegisterForm() {
   const { signup } = useUser()
   const router = useRouter()
   const [error, setError] = useState(null)
@@ -14,21 +14,21 @@ function AuthRegisterForm () {
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   })
 
   const handleChange = (e) => {
     const { name, value } = e.target
 
-    const setData = prevState => ({
+    const setData = (prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     })
 
     setCredentials(setData)
   }
 
-  const submit = async e => {
+  const submit = async (e) => {
     e.preventDefault()
     setLoading(true)
 
@@ -45,19 +45,13 @@ function AuthRegisterForm () {
   }
 
   const errorMessage = error ? (
-    <p
-      className="text-red-600 my-4"
-      role="alert"
-    >
+    <p className="text-red-600 my-4" role="alert">
       {error}
     </p>
   ) : null
 
   return (
-    <form
-      className="w-full max-w-lg mt-6"
-      onSubmit={submit}
-    >
+    <form className="w-full max-w-lg mt-6" onSubmit={submit}>
       <BaseLabel htmlFor="loginEmail" className="mb-2">
         Email Address
       </BaseLabel>
@@ -72,10 +66,7 @@ function AuthRegisterForm () {
         required
       />
 
-      <BaseLabel
-        htmlFor="loginPassword"
-        className="mb-2 mt-6"
-      >
+      <BaseLabel htmlFor="loginPassword" className="mb-2 mt-6">
         Password
       </BaseLabel>
 
@@ -84,15 +75,12 @@ function AuthRegisterForm () {
         name="password"
         type="password"
         value={credentials.password}
-        placeholder='******************'
+        placeholder="******************"
         onChange={handleChange}
         required
       />
 
-      <BaseLabel
-        htmlFor="loginConfirmPassword"
-        className="mb-2 mt-6"
-      >
+      <BaseLabel htmlFor="loginConfirmPassword" className="mb-2 mt-6">
         Confirm your password
       </BaseLabel>
 
@@ -101,7 +89,7 @@ function AuthRegisterForm () {
         name="confirmPassword"
         type="password"
         value={credentials.confirmPassword}
-        placeholder='******************'
+        placeholder="******************"
         onChange={handleChange}
         required
       />
@@ -109,9 +97,7 @@ function AuthRegisterForm () {
       {errorMessage}
 
       <div className="text-center mt-6">
-        <LoadingButton loading={loading}>
-          Create an account
-        </LoadingButton>
+        <LoadingButton loading={loading}>Create an account</LoadingButton>
       </div>
     </form>
   )

@@ -17,8 +17,7 @@ export default function MyAuctions() {
         .eq('owner_id', user.id)
         .order('name')
 
-      if (error) {
-      } else {
+      if (!error) {
         setAuctions(data)
       }
     }

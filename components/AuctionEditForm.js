@@ -17,7 +17,7 @@ function AuctionEditForm({ className = '' }) {
 
   const fetchData = useCallback(() => {
     fetchAuction()
-  }, [])
+  }, [fetchAuction])
 
   useEffect(() => {
     fetchData()

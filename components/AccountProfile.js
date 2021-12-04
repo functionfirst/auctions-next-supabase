@@ -15,13 +15,13 @@ export default function AccountProfile() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const [data, err] = await executeAsync(fetchProfile, user_id)
 
-      if (err) {
-        setError(err)
+      const [data, fetchError] = await executeAsync(fetchProfile, user_id)
+
+      if (fetchError) {
+        setError(fetchError.message)
       } else {
-        const { name } = data
-        setName(name)
+        setName(data.name)
       }
 
       setLoading(false)
@@ -40,10 +40,15 @@ export default function AccountProfile() {
       updated_at: new Date(),
     }
 
-    const [_res, err] = await executeAsync(updateProfileMinimal, updates)
-    if (err) {
-      setError(err)
+    const [_data, updateError] = await executeAsync(
+      updateProfileMinimal,
+      updates
+    )
+
+    if (updateError) {
+      setError(updateError.message)
     }
+
     setLoading(false)
   }
 
@@ -59,6 +64,8 @@ export default function AccountProfile() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
+        {error}
 
         <div className="text-center mt-6">
           <LoadingButton loading={loading}>Update</LoadingButton>

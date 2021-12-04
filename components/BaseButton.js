@@ -30,16 +30,11 @@ const sizes = {
 function BaseButton({
   color = 'gray',
   children,
-  fullWidth = false,
   size = 'md',
   variant = 'solid',
   className = '',
   disabled = false,
   type = 'submit',
-  leftIcon,
-  rightIcon,
-  loading,
-  loadingText = '',
   ...props
 }) {
   const css = [

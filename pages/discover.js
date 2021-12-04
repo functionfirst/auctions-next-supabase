@@ -3,7 +3,7 @@ import AuctionList from '../components/AuctionList'
 import { executeAsync } from '@/handlers/exceptions'
 import { fetchDiscover } from '@/lib/useAuctions'
 import ErrorPage from 'next/error'
-import useCacheControl from '@/lib/useCacheControl'
+import cacheControl from '@/lib/cacheControl'
 import Heading from '@/components/Heading'
 import Container from '@/components/Container'
 
@@ -26,7 +26,7 @@ export default function Discover({ auctions, error, status }) {
 }
 
 export async function getServerSideProps({ res }) {
-  useCacheControl(res)
+  cacheControl(res)
 
   const [auctions, error, status] = await executeAsync(fetchDiscover)
 

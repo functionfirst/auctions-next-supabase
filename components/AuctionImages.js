@@ -65,7 +65,7 @@ function AuctionImages({ className = '' }) {
 
   const fetchData = useCallback(() => {
     fetchAuctionImages()
-  }, [])
+  }, [fetchAuctionImages])
 
   useEffect(() => {
     fetchData()
@@ -75,6 +75,8 @@ function AuctionImages({ className = '' }) {
     <div className={`${className} grid grid-cols-4 gap-6 mb-6`}>
       <div className="col-span-4 flex items-center justify-between -mb-2">
         <h4 className="font-medium text-lg">Current Images</h4>
+
+        {error}
 
         <button
           type="button"
