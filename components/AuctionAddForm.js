@@ -1,10 +1,10 @@
-import { useCallback, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { useAuction } from '@/contexts/AuctionContext'
 import AuctionAddEditForm from '@/components/AuctionAddEditForm'
 
-function AuctionEditForm({ className = '' }) {
-  const { auction, saving, fetchAuction, setAuction, updateAuction } =
-    useAuction()
+function AuctionAddForm({ className = '' }) {
+  const router = useRouter()
+  const { auction, saving, setAuction, createAuction } = useAuction()
 
   const onAuctionChange = (e) => {
     const { name, value, checked, type } = e.target
@@ -15,13 +15,10 @@ function AuctionEditForm({ className = '' }) {
     }))
   }
 
-  const fetchData = useCallback(() => {
-    fetchAuction()
-  }, [])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
+  async function submit(data) {
+    await createAuction(data)
+    router.push('/my-auctions')
+  }
 
   return (
     <AuctionAddEditForm
@@ -29,9 +26,9 @@ function AuctionEditForm({ className = '' }) {
       className={className}
       onAuctionChange={onAuctionChange}
       saving={saving}
-      submit={updateAuction}
+      submit={submit}
     />
   )
 }
 
-export default AuctionEditForm
+export default AuctionAddForm

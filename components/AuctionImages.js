@@ -4,16 +4,16 @@ import { useCallback, useEffect, useState } from 'react'
 import { IconTrash, IconSpinner } from '@/components/Icon'
 import { BlurData } from '@/components/BlurImage'
 
-function ImageCard ({ src, isSelected, toggle }) {
+function ImageCard({ src, isSelected, toggle }) {
   return (
     <div className="bg-white border border-gray-100 rounded relative shadow-sm">
-      <div className={`${isSelected ? 'border-indigo-600' : null } border-2 border-transparent`}>
+      <div
+        className={`${
+          isSelected ? 'border-red-500' : null
+        } border-2 border-transparent`}
+      >
         <label className="cursor-pointer block p-2 inset-0 absolute z-10">
-          <input
-            type="checkbox"
-            checked={isSelected}
-            onChange={toggle}
-          />
+          <input type="checkbox" checked={isSelected} onChange={toggle} />
         </label>
 
         <Image
@@ -30,12 +30,13 @@ function ImageCard ({ src, isSelected, toggle }) {
   )
 }
 
-function AuctionImages ({ className = '' }) {
+function AuctionImages({ className = '' }) {
   const [error, setError] = useState(null)
   const { images, deleting, deleteImages, fetchAuctionImages } = useAuction()
   const [selected, setSelected] = useState([])
 
-  const imageSelected = imageId => selected && selected.some(item => item.id === imageId)
+  const imageSelected = (imageId) =>
+    selected && selected.some((item) => item.id === imageId)
 
   const remove = async () => {
     const [_data, deleteError] = await deleteImages(selected)
@@ -54,9 +55,11 @@ function AuctionImages ({ className = '' }) {
 
   const toggle = (image) => {
     if (imageSelected(image.id)) {
-      setSelected(prevState => prevState.filter(item => item.id !== image.id))
+      setSelected((prevState) =>
+        prevState.filter((item) => item.id !== image.id)
+      )
     } else {
-      setSelected(prevState => [...prevState, image])
+      setSelected((prevState) => [...prevState, image])
     }
   }
 
@@ -80,28 +83,26 @@ function AuctionImages ({ className = '' }) {
             inline-flex justify-center items-center gap-1 px-3 py-2 text-sm font-medium border rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
             border-red-500 text-red-500 hover:text-red-800 hover:border-red-800 focus-visible:ring-red-500 
             ${hasSelected ? null : 'invisible'}
-            ${deleting ? 'pointer-events-none': 'cursor-pointer'}
+            ${deleting ? 'pointer-events-none' : 'cursor-pointer'}
           `}
         >
-          {
-            deleting ?
-            <IconSpinner className="h-5 w-5" /> :
+          {deleting ? (
+            <IconSpinner className="h-5 w-5" />
+          ) : (
             <IconTrash className="h-5 w-5" />
-          }
-          { deleting ? 'Deleting' : 'Delete selected'}
+          )}
+          {deleting ? 'Deleting' : 'Delete selected'}
         </button>
       </div>
 
-      {
-        images.map(image =>
-          <ImageCard
-            key={image.id}
-            src={image.public_url}
-            isSelected={imageSelected(image.id)}
-            toggle={() => toggle(image)}
-          />
-        )
-      }
+      {images.map((image) => (
+        <ImageCard
+          key={image.id}
+          src={image.public_url}
+          isSelected={imageSelected(image.id)}
+          toggle={() => toggle(image)}
+        />
+      ))}
     </div>
   )
 }

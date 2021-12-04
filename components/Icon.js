@@ -10,6 +10,17 @@ const Icon = ({ children, className }) => (
   </svg>
 )
 
+export const IconExternalLink = ({ className }) => (
+  <Icon className={className}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+    />
+  </Icon>
+)
+
 export const IconGlobe = ({ className }) => (
   <Icon className={className}>
     <path
@@ -119,19 +130,25 @@ export const IconScales = ({ className }) => (
 )
 
 export const IconSpinner = ({ className }) => (
-  <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" className={`${className} stroke-current`}>
+  <svg
+    width="38"
+    height="38"
+    viewBox="0 0 38 38"
+    xmlns="http://www.w3.org/2000/svg"
+    className={`${className} stroke-current`}
+  >
     <g fill="none" fillRule="evenodd">
       <g transform="translate(1 1)" strokeWidth="2">
-        <circle strokeOpacity=".5" cx="18" cy="18" r="18"/>
+        <circle strokeOpacity=".5" cx="18" cy="18" r="18" />
         <path d="M36 18c0-9.94-8.06-18-18-18">
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              from="0 18 18"
-              to="360 18 18"
-              dur="1s"
-              repeatCount="indefinite"
-            />
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0 18 18"
+            to="360 18 18"
+            dur="1s"
+            repeatCount="indefinite"
+          />
         </path>
       </g>
     </g>
@@ -167,6 +184,17 @@ export const IconUserCircle = ({ className }) => (
       strokeLinejoin="round"
       strokeWidth="2"
       d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </Icon>
+)
+
+export const IconWarning = ({ className = '' }) => (
+  <Icon className={className}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
     />
   </Icon>
 )

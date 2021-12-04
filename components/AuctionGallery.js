@@ -2,20 +2,17 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { BlurData } from '@/components/BlurImage'
 
-function AuctionGallery ({ className = '', images }) {
+function AuctionGallery({ className = '', images }) {
   const [preview, setPreview] = useState(images[0])
 
   return (
     <div className={`${className} flex gap-6 items-start`}>
       <div className="flex flex-col gap-6">
-        {images.map(image => (
-          <button
-            key={image.id}
-            onClick={() => setPreview(image)}
-          >
+        {images.map((image) => (
+          <button key={image.id} onClick={() => setPreview(image)}>
             <Image
               src={image.public_url}
-              alt=''
+              alt=""
               width="64"
               height="64"
               layout="intrinsic"
@@ -31,17 +28,19 @@ function AuctionGallery ({ className = '', images }) {
       </div>
 
       <div className="border border-gray-50 shadow-sm">
-        <Image
-          src={preview.public_url}
-          alt=''
-          width="512"
-          height="512"
-          layout="intrinsic"
-          quality="10"
-          placeholder="blur"
-          blurDataURL={BlurData}
-          priority
-        />
+        {preview ? (
+          <Image
+            src={preview.public_url}
+            alt=""
+            width="512"
+            height="512"
+            layout="intrinsic"
+            quality="10"
+            placeholder="blur"
+            blurDataURL={BlurData}
+            priority
+          />
+        ) : null}
       </div>
     </div>
   )

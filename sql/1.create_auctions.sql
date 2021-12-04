@@ -4,7 +4,7 @@ create table auctions (
     description text,
     slug text not null,
     owner_id uuid references auth.users not null,
-    enabled boolean not null,
+    enabled boolean not null default false,
     estimate_max integer,
     estimate_min integer,
     featured boolean not null,

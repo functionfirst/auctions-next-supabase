@@ -1,25 +1,37 @@
 {
   "name": "auctions",
   "version": "0.1.0",
-  "private": true,
+  "repository": "https://github.com/functionfirst/auctions-next-supabase",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "npx eslint --fix \"/**/*.{js,ts,tsx}\"",
+    "format": "prettier --write \"/**/*.{js,ts,tsx}\"",
+    "test": "jest"
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.25.2",
     "next": "^12.0.3",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "swr": "^1.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/react": "^17.0.37",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
     "autoprefixer": "^10.3.7",
     "date-fns": "^2.25.0",
     "eslint": "7",
     "eslint-config-next": "12.0.3",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.4.3",
     "postcss": "^8.3.9",
-    "tailwindcss": "^2.2.16"
+    "prettier": "^2.5.1",
+    "tailwindcss": "^2.2.16",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
   }
 }

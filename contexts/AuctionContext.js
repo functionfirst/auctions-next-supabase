@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useUser } from '@/contexts/UserContext'
 import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
+import { convertToSlug } from '@/lib/convertToSlug'
 
 const AuctionContext = createContext({ user: null, session: null })
 
@@ -20,7 +21,7 @@ export const AuctionContextProvider = (props) => {
     estimate_min: '',
     estimate_max: '',
     enabled: false,
-    featured: false
+    featured: false,
   })
   const [images, setImages] = useState([])
   const [deleting, setDeleting] = useState(false)
@@ -29,9 +30,18 @@ export const AuctionContextProvider = (props) => {
   const [saving, setSaving] = useState(false)
 
   const normaliseAuctionData = useCallback((auction) => {
-    auction.created_at = format(parseISO(auction.created_at), "io MMM yyyy 'at' HH:mm")
-    auction.updated_at = format(parseISO(auction.updated_at), "io MMM yyyy 'at' HH:mm")
-    auction.start_date = format(parseISO(auction.start_date), "yyyy-MM-dd'T'hh:mm")
+    auction.created_at = format(
+      parseISO(auction.created_at),
+      "io MMM yyyy 'at' HH:mm"
+    )
+    auction.updated_at = format(
+      parseISO(auction.updated_at),
+      "io MMM yyyy 'at' HH:mm"
+    )
+    auction.start_date = format(
+      parseISO(auction.start_date),
+      "yyyy-MM-dd'T'hh:mm"
+    )
     auction.end_date = format(parseISO(auction.end_date), "yyyy-MM-dd'T'hh:mm")
     setAuction(auction)
   }, [])
@@ -41,7 +51,9 @@ export const AuctionContextProvider = (props) => {
     const fileName = `${Math.random()}.${fileExt}`
     const image_url = `${user.id}/${auction_id}/${fileName}`
 
-    const { error } = await supabase.storage.from('auction-images').upload(image_url, file)
+    const { error } = await supabase.storage
+      .from('auction-images')
+      .upload(image_url, file)
 
     if (error) {
       throw error
@@ -50,18 +62,22 @@ export const AuctionContextProvider = (props) => {
     return image_url
   }
 
-  async function getPublicUrl (imageUrl) {
-    const { publicURL, error } = supabase.storage.from('auction-images').getPublicUrl(imageUrl)
+  async function getPublicUrl(imageUrl) {
+    const { publicURL, error } = supabase.storage
+      .from('auction-images')
+      .getPublicUrl(imageUrl)
 
     if (error) {
       throw error
     }
-    
+
     return publicURL
   }
 
-  async function saveImageToAuction (payload) {
-    const { data, error } = await supabase.from('auction_images').upsert(payload)
+  async function saveImageToAuction(payload) {
+    const { data, error } = await supabase
+      .from('auction_images')
+      .upsert(payload)
 
     if (error) {
       throw error
@@ -70,7 +86,7 @@ export const AuctionContextProvider = (props) => {
     return data
   }
 
-  async function uploadImage (file) {
+  async function uploadImage(file) {
     try {
       setUploading(true)
       const image_url = await uploadToStorage(file)
@@ -84,19 +100,24 @@ export const AuctionContextProvider = (props) => {
     }
   }
 
-  async function deleteImages (images) {
+  async function deleteImages(images) {
     try {
       setDeleting(true)
 
-      const urls = images.map(image => image.image_url)
-      const { data: storageData, error: storageError } = await supabase.storage.from('auction-images').remove(urls)
+      const urls = images.map((image) => image.image_url)
+      const { data: storageData, error: storageError } = await supabase.storage
+        .from('auction-images')
+        .remove(urls)
 
       if (storageError) {
         throw storageError
       }
 
-      const ids = images.map(image => image.id)
-      const { error: deleteError } = await supabase.from('auction_images').delete().in('id', ids)
+      const ids = images.map((image) => image.id)
+      const { error: deleteError } = await supabase
+        .from('auction_images')
+        .delete()
+        .in('id', ids)
 
       if (deleteError) {
         throw deleteError
@@ -116,11 +137,14 @@ export const AuctionContextProvider = (props) => {
     }
   }
 
-  async function fetchAuctionImages () {
+  async function fetchAuctionImages() {
     try {
       setLoading(true)
 
-      const { data, error } = await supabase.from('auction_images').select('id, image_url, public_url').eq('auction_id', auction_id)
+      const { data, error } = await supabase
+        .from('auction_images')
+        .select('id, image_url, public_url')
+        .eq('auction_id', auction_id)
 
       if (error) {
         throw error.message
@@ -135,12 +159,17 @@ export const AuctionContextProvider = (props) => {
     }
   }
 
-  async function fetchAuction () {
+  async function fetchAuction() {
     try {
+      if (!auction_id) {
+        return
+      }
       setLoading(true)
 
       // @todo secure this to the loggedin user
-      const { data, error } = await supabase.rpc('auction_by_id', { auction_id })
+      const { data, error } = await supabase.rpc('auction_by_id', {
+        auction_id,
+      })
 
       if (error) {
         throw error
@@ -156,11 +185,39 @@ export const AuctionContextProvider = (props) => {
     }
   }
 
-  async function saveAuction(formData) {
+  async function createAuction(formData) {
     try {
       setSaving(true)
 
-      const { data, error } = await supabase.from('auctions').update(formData).eq('id', auction_id).eq('owner_id', user.id)
+      const payload = {
+        ...formData,
+        slug: convertToSlug(formData.name),
+        owner_id: user.id,
+      }
+
+      const { data, error } = await supabase.from('auctions').insert([payload])
+
+      if (error) {
+        throw error
+      }
+
+      return [data]
+    } catch (error) {
+      return [null, error.message]
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function updateAuction(formData) {
+    try {
+      setSaving(true)
+
+      const { data, error } = await supabase
+        .from('auctions')
+        .update(formData)
+        .eq('id', auction_id)
+        .eq('owner_id', user.id)
 
       if (error) {
         throw error
@@ -176,22 +233,21 @@ export const AuctionContextProvider = (props) => {
 
   const value = {
     auction,
+    createAuction,
     deleteImages,
     deleting,
     images,
     fetchAuctionImages,
     fetchAuction,
-    saveAuction,
+    updateAuction,
     saving,
     setAuction,
     loading,
     uploading,
-    uploadImage
+    uploadImage,
   }
 
-  return (
-    <AuctionContext.Provider value={value} {...props} />
-  )
+  return <AuctionContext.Provider value={value} {...props} />
 }
 
 export const useAuction = () => {

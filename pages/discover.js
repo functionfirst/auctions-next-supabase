@@ -1,49 +1,45 @@
-import { supabase } from '@/lib/initSupabase'
 import Head from 'next/head'
 import AuctionList from '../components/AuctionList'
-import AuctionAPIService from '@/services/AuctionAPIService'
+import { executeAsync } from '@/handlers/exceptions'
+import { fetchDiscover } from '@/lib/useAuctions'
+import ErrorPage from 'next/error'
+import useCacheControl from '@/lib/useCacheControl'
+import Heading from '@/components/Heading'
+import Container from '@/components/Container'
 
-const auctionAPIService = new AuctionAPIService(supabase)
+export default function Discover({ auctions, error, status }) {
+  if (error) {
+    return <ErrorPage statusCode={status} title={error.message} />
+  }
 
-function Discover ({ auctions }) {
   return (
-    <>
+    <Container>
       <Head>
         <title>Discover - Realtime Auctions</title>
       </Head>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h1 className="font-semibold text-2xl mb-4">
-          Discover
-        </h1>
+      <Heading>Discover</Heading>
 
-        <AuctionList auctions={auctions} />
-      </div>
-    </>
+      <AuctionList auctions={auctions} />
+    </Container>
   )
 }
 
-export async function getServerSideProps ({
-  res
-}) {
-  const { error, data: auctions, status } = await auctionAPIService.discover()
+export async function getServerSideProps({ res }) {
+  useCacheControl(res)
+
+  const [auctions, error, status] = await executeAsync(fetchDiscover)
 
   if (error) {
-    res.statusCode = 400
-
-    return {
-      props: {
-        error: error.message,
-        status
-      }
-    }
+    res.statusCode = status
   }
 
   return {
     props: {
-      auctions
-    }
+      auctions,
+      error,
+      generatedAt: new Date().toString(),
+      status,
+    },
   }
 }
-
-export default Discover

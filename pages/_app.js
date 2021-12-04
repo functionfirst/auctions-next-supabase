@@ -20,9 +20,7 @@ function MyApp({ Component, pageProps }) {
 
       <AppContextProvider>
         <UserContextProvider supabase={supabase}>
-          <Layout {...pageProps}>
-            {app}
-          </Layout>
+          <Layout {...pageProps}>{app}</Layout>
         </UserContextProvider>
       </AppContextProvider>
     </>

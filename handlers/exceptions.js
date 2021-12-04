@@ -1,21 +1,23 @@
 export const execute = (callback, ...args) => {
-  try {
-    const res = callback(args)
-    return [res, null]
-  } catch (error) {
-    console.log(Error(error.message ?? error))
+  const { data, error, status } = callback(...args)
+
+  if (error) {
     // @todo log to error reporting service
-    return [null, error]
+    console.log(Error(error.message ?? error))
+    return [data, error, status]
   }
+
+  return [data, null, status]
 }
 
 export const executeAsync = async (callback, ...args) => {
-  try {
-    const res = await callback(args)
-    return [res, null]
-  } catch (error) {
-    console.log(Error(error.message ?? error))
+  const { data, error, status } = await callback(...args)
+
+  if (error) {
     // @todo log to error reporting service
-    return [null, error]
+    console.log(Error(error.message ?? error))
+    return [data, error, status]
   }
+
+  return [data, null, status]
 }
