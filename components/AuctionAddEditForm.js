@@ -32,10 +32,8 @@ function AuctionAddEditForm({
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    console.log('sub')
 
     if (isFormDirty) {
-      console.log('dirty', dirtyAuction)
       await submit(dirtyAuction)
       setDirtyAuction({})
     }
